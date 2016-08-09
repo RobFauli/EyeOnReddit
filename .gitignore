@@ -1,0 +1,10 @@
+*.so
+*.a
+*.idea*
+bin/*
+*CMakeCache.txt
+*CMakeFiles
+*cmake_install.cmake
+*Makefile
+main.cpp
+CMakeLists.txt.user
