@@ -1,12 +1,8 @@
-#include <QtCore/QCoreApplication>
 #include "Subreddit.hpp"
 Subreddit::Subreddit(const QString &name)
     : m_name(name),
       m_url("http://www.reddit.com/r/" + name + ".json")
 {
-    char *cargv = new char [1];
-    int i = 1;
-    QCoreApplication test(i, &cargv);
 
     FileDownloader downloader(m_url);
     QEventLoop wait;
