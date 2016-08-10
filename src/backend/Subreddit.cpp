@@ -23,7 +23,7 @@ QStringList Subreddit::getFrontpageTitles() const
 {
     QStringList titles;
     Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
-        titles << post.toObject()["data"].toObject()["title"].toString();
+        titles << preparepost(post)["title"].toString();
     }
     return titles;
 }
@@ -37,7 +37,7 @@ QVector<int> Subreddit::getFrontpageCommentCounts() const
 {
     QVector<int> commentCounts;
     Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
-        commentCounts << post.toObject()["data"].toObject()["num_comments"].toInt();
+        commentCounts << preparepost(post)["num_comments"].toInt();
     }
     return commentCounts;
 }
@@ -45,7 +45,7 @@ QVector<int> Subreddit::getFrontpageScores() const
 {
     QVector<int> scores;
     Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
-        scores << post.toObject()["data"].toObject()["score"].toInt();
+        scores << preparepost(post)["score"].toInt();
     }
     return scores;
 }
