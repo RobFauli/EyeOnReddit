@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <QtCore/QCoreApplication>
-#include "Subreddit.hpp"
 #include "testMacros.hpp"
+#include "Subreddit.hpp"
 
 TEST(SubredditConstruction, NameAsParam_getCorrectName)
 {
@@ -31,6 +31,30 @@ TEST_F(NewsSubredditTest, getAll25FrontpageTitles) {
     QStringList titles = newsSub->getFrontpageTitles();
     EXPECT_EQ(25, titles.count());
     Q_FOREACH(QString title, titles) {
-        ASSERT_LT(0, title.size());
+        ASSERT_FALSE(title.isEmpty());
+    }
+}
+
+TEST_F(NewsSubredditTest, getAll25FrontPageCommentCounts) {
+    QVector<int> commentCounts = newsSub->getFrontpageCommentCounts();
+    EXPECT_EQ(25, commentCounts.count());
+    Q_FOREACH(int count, commentCounts) {
+        ASSERT_LE(0, count);
+    }
+}
+
+TEST_F(NewsSubredditTest, getAll25FrontPageScores) {
+    QVector<int> scores = newsSub->getFrontpageScores();
+    EXPECT_EQ(25, scores.count());
+    Q_FOREACH(int score, scores) {
+        ASSERT_LE(0, score);
+    }
+}
+
+TEST_F(NewsSubredditTest, getAll25FrontPageDomains) {
+    QList<QUrl> domains = newsSub->getFrontpageDomains();
+    EXPECT_EQ(25, domains.count());
+    Q_FOREACH(QUrl domain, domains) {
+        ASSERT_FALSE(domain.isEmpty());
     }
 }

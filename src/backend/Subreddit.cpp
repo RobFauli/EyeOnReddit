@@ -21,13 +21,39 @@ QJsonDocument Subreddit::getJson() const
 }
 QStringList Subreddit::getFrontpageTitles() const
 {
+    QStringList titles;
+    Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
+        titles << post.toObject()["data"].toObject()["title"].toString();
+    }
+    return titles;
+}
+const QJsonArray Subreddit::getFrontpagePostJsonObjects() const
+{
     const QJsonValue data = m_json.object()["data"];
     const QJsonArray posts = data.toObject()["children"].toArray();
-
-    QStringList titles;
-    Q_FOREACH(const QJsonValue post, posts) {
-        titles.push_back(post.toObject()["data"].toObject()["title"].toString());
+    return posts;
+}
+QVector<int> Subreddit::getFrontpageCommentCounts() const
+{
+    QVector<int> commentCounts;
+    Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
+        commentCounts << post.toObject()["data"].toObject()["num_comments"].toInt();
     }
-
-    return titles;
+    return commentCounts;
+}
+QVector<int> Subreddit::getFrontpageScores() const
+{
+    QVector<int> scores;
+    Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
+        scores << post.toObject()["data"].toObject()["score"].toInt();
+    }
+    return scores;
+}
+QList<QUrl> Subreddit::getFrontpageDomains() const
+{
+    QList<QUrl> domains;
+    Q_FOREACH(const QJsonValue post, getFrontpagePostJsonObjects()) {
+        domains << preparepost(post)["domain"].toString();
+    }
+    return domains;
 }
