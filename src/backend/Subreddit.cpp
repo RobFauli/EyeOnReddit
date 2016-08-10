@@ -8,15 +8,26 @@ Subreddit::Subreddit(const QString &name)
     QEventLoop wait;
     connect(&downloader, &FileDownloader::downloaded, &wait, &QEventLoop::quit);
     wait.exec();
-    //qDebug() << downloader.downloadedData().toStdString().c_str();
 
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
 }
-QString Subreddit::getName()
+QString Subreddit::getName() const
 {
     return m_name;
 }
-QJsonDocument Subreddit::getJson()
+QJsonDocument Subreddit::getJson() const
 {
     return m_json;
+}
+QStringList Subreddit::getFrontpageTitles() const
+{
+    const QJsonValue data = m_json.object()["data"];
+    const QJsonArray posts = data.toObject()["children"].toArray();
+
+    QStringList titles;
+    Q_FOREACH(const QJsonValue post, posts) {
+        titles.push_back(post.toObject()["data"].toObject()["title"].toString());
+    }
+
+    return titles;
 }

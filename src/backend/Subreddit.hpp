@@ -5,6 +5,7 @@
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include "FileDownloader.hpp"
 
 class Subreddit : public QObject
@@ -13,8 +14,9 @@ class Subreddit : public QObject
 public:
     Subreddit(const QString &name);
 
-    QString getName();
-    QJsonDocument getJson();
+    QString getName() const;
+    QJsonDocument getJson() const;
+    QStringList getFrontpageTitles() const;
 
 private:
     QString m_name;
