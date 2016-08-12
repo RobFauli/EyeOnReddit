@@ -8,3 +8,4 @@ bin/*
 *Makefile
 main.cpp
 CMakeLists.txt.user
+*.pro.user
