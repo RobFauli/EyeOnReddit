@@ -1,2 +1,2 @@
-INCLUDEPATH += $$PWD/src/backend
+INCLUDEPATH += $$PWD/src
 SRC_DIR = $$PWD

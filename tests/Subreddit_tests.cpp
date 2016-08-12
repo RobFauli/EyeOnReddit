@@ -1,6 +1,6 @@
 #include <QtCore/QCoreApplication>
 #include "testMacros.hpp"
-//#include "Subreddit.hpp"
+#include "Subreddit.hpp"
 
 /*
 
