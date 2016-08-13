@@ -9,12 +9,17 @@ TEST_CASE("Construction from subreddit name", "[Subreddit]")
     SETUP_Q_CORE_APP
     Subreddit newsSub(QString("news"));
 
+    SECTION("Get correct sub name")
+    {
+        REQUIRE(newsSub.getName() == "news");
+    }
+
     SECTION("Get frontpage titles")
     {
         QStringList titles = newsSub.getFrontpageTitles();
         REQUIRE(titles.count() == 25);
         Q_FOREACH(QString title, titles) {
-            REQUIRE_FALSE(title.isEmpty());
+            CHECK_FALSE(title.isEmpty());
         }
     }
 
@@ -22,7 +27,7 @@ TEST_CASE("Construction from subreddit name", "[Subreddit]")
         QVector<int> commentCounts = newsSub.getFrontpageCommentCounts();
         REQUIRE(commentCounts.count() == 25);
         Q_FOREACH(int count, commentCounts) {
-            REQUIRE(count >= 0);
+            CHECK(count >= 0);
         }
     }
 
@@ -30,7 +35,7 @@ TEST_CASE("Construction from subreddit name", "[Subreddit]")
         QVector<int> scores = newsSub.getFrontpageScores();
         REQUIRE(scores.count() == 25);
         Q_FOREACH(int score, scores) {
-            REQUIRE(score >= 0);
+            CHECK(score >= 0);
         }
     }
 
@@ -38,7 +43,7 @@ TEST_CASE("Construction from subreddit name", "[Subreddit]")
         QList<QUrl> domains = newsSub.getFrontpageDomains();
         REQUIRE(domains.count() == 25);
         Q_FOREACH(QUrl domain, domains) {
-            REQUIRE_FALSE(domain.isEmpty());
+            CHECK_FALSE(domain.isEmpty());
         }
     }
 }
