@@ -6,6 +6,7 @@ CONFIG += app_bundle
 
 SOURCES += \
     main.cpp \
-    Subreddit_tests.cpp
+    Subreddit_tests.cpp \
+    Submonitor_tests.cpp
 
 LIBS += -L../src -lbackend

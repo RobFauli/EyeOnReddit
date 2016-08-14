@@ -14,7 +14,7 @@ Window {
     }
 
     Text {
-        text: qsTr("Hello World")
+        text: qsTr("Hello Desktop")
         anchors.centerIn: parent
     }
 }
