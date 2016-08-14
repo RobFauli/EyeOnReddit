@@ -1,10 +1,9 @@
-import QtQuick 2.3
-import QtQuick.Window 2.1
+import QtQuick 2.5
+import QtQuick.Controls 2.0
 
-Window {
+ApplicationWindow {
+    id: window
     visible: true
-    width: 360
-    height: 360
 
     MouseArea {
         anchors.fill: parent
