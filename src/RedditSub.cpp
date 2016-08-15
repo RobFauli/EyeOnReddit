@@ -16,8 +16,8 @@ QJsonDocument RedditSub::getJson() const
 QStringList RedditSub::getFrontpageTitles() const
 {
     QStringList titles;
-    Q_FOREACH(const QJsonValue post, getFrontpagePostsJsonArray()) {
-        titles << preparepost(post)["title"].toString();
+    Q_FOREACH(const auto &post, m_frontPagePosts) {
+        titles << post->getTitle();
     }
     return titles;
 }
@@ -30,7 +30,7 @@ const QJsonArray RedditSub::getFrontpagePostsJsonArray() const
 
 void RedditSub::populateFrontPagePosts()
 {
-    Q_FOREACH(const QJsonValue post, getFrontpagePostsJsonArray()) {
+    Q_FOREACH(const QJsonValue &post, getFrontpagePostsJsonArray()) {
         const auto postObject = preparepost(post);
         const auto id = postObject["id"].toString();
         if (m_frontPagePosts.contains(id))
@@ -42,24 +42,24 @@ void RedditSub::populateFrontPagePosts()
 QVector<int> RedditSub::getFrontpageCommentCounts() const
 {
     QVector<int> commentCounts;
-    Q_FOREACH(const QJsonValue post, getFrontpagePostsJsonArray()) {
-        commentCounts << preparepost(post)["num_comments"].toInt();
+    Q_FOREACH(const auto &post, m_frontPagePosts) {
+        commentCounts << post->getCommentCount();
     }
     return commentCounts;
 }
 QVector<int> RedditSub::getFrontpageScores() const
 {
     QVector<int> scores;
-    Q_FOREACH(const QJsonValue post, getFrontpagePostsJsonArray()) {
-        scores << preparepost(post)["score"].toInt();
+    Q_FOREACH(const auto &post, m_frontPagePosts) {
+        scores << post->getScore();
     }
     return scores;
 }
 QList<QUrl> RedditSub::getFrontpageDomains() const
 {
     QList<QUrl> domains;
-    Q_FOREACH(const QJsonValue post, getFrontpagePostsJsonArray()) {
-        domains << preparepost(post)["domain"].toString();
+    Q_FOREACH(const auto &post, m_frontPagePosts) {
+        domains << post->getDomain();
     }
     return domains;
 }
@@ -72,4 +72,5 @@ void RedditSub::update()
     wait.exec();
 
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
+    populateFrontPagePosts();
 }
