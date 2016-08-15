@@ -1,6 +1,7 @@
 include(../defaults.pri)
 
 TEMPLATE = app
+QT += quick
 
 android {
     RESOURCES = \

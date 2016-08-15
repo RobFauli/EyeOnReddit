@@ -1,4 +1,4 @@
 INCLUDEPATH += $$PWD/src
 SRC_DIR = $$PWD
 
-QT += quick
+QMAKE_CXXFLAGS += -std=c++14
