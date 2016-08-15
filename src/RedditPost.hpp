@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QMap>
 #include <QObject>
+#include <QUrl>
 
 class RedditPost : public QObject
 {
