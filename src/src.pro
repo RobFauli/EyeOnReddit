@@ -7,9 +7,11 @@ QT += network
 
 SOURCES += \
     FileDownloader.cpp \
-    Subreddit.cpp \
-    Reddit.cpp
+    Reddit.cpp \
+    RedditPost.cpp \
+    RedditSub.cpp
 HEADERS += \
     FileDownloader.hpp \
-    Subreddit.hpp \
-    Reddit.hpp
+    Reddit.hpp \
+    RedditPost.hpp \
+    RedditSub.hpp

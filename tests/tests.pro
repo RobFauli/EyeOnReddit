@@ -7,8 +7,7 @@ QT += network
 
 SOURCES += \
     main.cpp \
-    Subreddit_tests.cpp \
-    Submonitor_tests.cpp \
-    Reddit_tests.cpp
+    Reddit_tests.cpp \
+    RedditSub_tests.cpp
 
 LIBS += -L../src -lbackend
