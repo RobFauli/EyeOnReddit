@@ -33,10 +33,11 @@ void RedditSub::populateFrontPagePosts()
     Q_FOREACH(const QJsonValue &post, getFrontpagePostsJsonArray()) {
         const auto postObject = preparepost(post);
         const auto id = postObject["id"].toString();
-        if (m_frontPagePosts.contains(id))
+        if (m_frontPagePosts.contains(id)) {
             m_frontPagePosts[id]->addData(postObject);
-        else
+        } else {
             m_frontPagePosts.insert(postObject["id"].toString(), std::make_shared<RedditPost>(postObject));
+        }
     }
 }
 QVector<int> RedditSub::getFrontpageCommentCounts() const
