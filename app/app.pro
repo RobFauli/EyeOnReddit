@@ -5,18 +5,19 @@ QT += quick
 
 android {
     RESOURCES = \
-        QML/Android/android.qrc
+        Android/QML/android.qrc
+    SOURCES += Android/src/main.cpp
 }
 
 unix:!android|win32|win64 {
     RESOURCES = \
-        QML/Desktop/desktop.qrc
+        Desktop/QML/desktop.qrc
+    SOURCES += Desktop/src/main.cpp
 }
 
 LIBS += \
     -L../src -lbackend
 
-SOURCES += main.cpp
 
 DISTFILES += \
     QML/android_main.qml
