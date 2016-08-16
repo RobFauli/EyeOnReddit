@@ -3,6 +3,7 @@ RedditSub::RedditSub(const QString &name)
     : m_name(name),
       m_url("http://www.reddit.com/r/" + name + ".json")
 {
+    connect(m_timer.get(), &QTimer::timeout, this, &RedditSub::update);
     update();
 }
 QString RedditSub::getName() const
@@ -65,6 +66,12 @@ QList<QUrl> RedditSub::getFrontpageDomains() const
     return domains;
 }
 
+void RedditSub::setUpdateIntervals(int milliseconds)
+{
+    m_timer->setInterval(milliseconds);
+    m_timer->start();
+}
+
 void RedditSub::update()
 {
     FileDownloader downloader(m_url);
@@ -74,4 +81,35 @@ void RedditSub::update()
 
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
     populateFrontPagePosts();
+    detectActivity();
+}
+
+void RedditSub::detectActivity()
+{
+    // Above average of X
+    // X: Number of comments
+    double numcom_avg
+            = std::accumulate(
+                m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
+                [](double x, std::shared_ptr<RedditPost> y) {return x + y->getCommentCount();})
+            / m_frontPagePosts.size();
+    Q_FOREACH(const auto &post, m_frontPagePosts)
+        if (!(post->getAlerted()))
+            if (post->getCommentCount() > (numcom_avg * m_thresholds.numCommentsFactor)) {
+                emit postWithHighCommentCount(post->getId());
+                post->setAlerted(true);
+            }
+
+    // X: Score
+    double score_avg
+            = std::accumulate(
+                m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
+                [](double x, std::shared_ptr<RedditPost> y) {return x + y->getScore();})
+            / m_frontPagePosts.size();
+    Q_FOREACH(const auto &post, m_frontPagePosts)
+        if (!(post->getAlerted()))
+            if (post->getScore() > (score_avg * m_thresholds.scoreFactor)) {
+                emit postWithHighScore(post->getId());
+                post->setAlerted(true);
+            }
 }

@@ -11,6 +11,11 @@
 #include "FileDownloader.hpp"
 #include "RedditPost.hpp"
 
+struct Thresholds {
+    double numCommentsFactor = 3.0;
+    double scoreFactor = 3.0;
+};
+
 class RedditSub : public QObject
 {
     Q_OBJECT
@@ -24,9 +29,11 @@ public:
     QVector<int> getFrontpageScores() const;
     QList<QUrl> getFrontpageDomains() const;
 
+    void setUpdateIntervals(int milliseconds);
+
 signals:
-    void postWithHighCommentCount();
-    void postWithHighScore();
+    void postWithHighCommentCount(QString id);
+    void postWithHighScore(QString id);
 
 public slots:
     void update();
@@ -41,7 +48,10 @@ private:
     void populateFrontPagePosts();
 
     QMap<QString, std::shared_ptr<RedditPost>> m_frontPagePosts; // Keyed by unique ID
+
     std::unique_ptr<QTimer> m_timer;
+
+    Thresholds m_thresholds;
 };
 
 inline QJsonObject preparepost(const QJsonValue &post)

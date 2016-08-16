@@ -20,12 +20,16 @@ public:
     int getCommentCount();
     int getScore();
 
+    void setAlerted(bool alerted) { m_alerted = alerted; }
+    bool getAlerted() { return m_alerted; }
+
 signals:
 
 public slots:
 
 private:
     QMap<QDateTime, QJsonObject> m_data;
+    bool m_alerted = false;
 };
 
 #endif // REDDITPOST_HPP
