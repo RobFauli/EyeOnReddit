@@ -26,7 +26,12 @@ QList<QString> Reddit::getSubredditNames() const
     return m_subreddits.keys();
 }
 
-QUrl Reddit::getSubredditUrl(const QString &name)
+QUrl Reddit::getSubredditUrl(const QString &name) const
 {
     return m_subreddits[name]->getUrl();
+}
+
+Subreddit & Reddit::getSubreddit(const QString &name) const
+{
+    return *m_subreddits[name];
 }

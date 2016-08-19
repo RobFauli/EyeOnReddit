@@ -18,7 +18,9 @@ public:
 
     QList<QString> getSubredditNames() const;
 
-    Q_INVOKABLE QUrl getSubredditUrl(const QString &name);
+    Q_INVOKABLE QUrl getSubredditUrl(const QString &name) const;
+
+    Q_INVOKABLE Subreddit &getSubreddit(const QString &name) const;
 
     Q_PROPERTY(QList<QString> subredditNames
                READ getSubredditNames
