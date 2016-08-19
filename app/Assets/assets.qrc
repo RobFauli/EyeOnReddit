@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file>Icons/96x96/reddit_icon_circle.png</file>
+        <file>Icons/256x256/reddit_logo.png</file>
+    </qresource>
+</RCC>
