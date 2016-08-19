@@ -9,9 +9,9 @@ SOURCES += \
     FileDownloader.cpp \
     Reddit.cpp \
     RedditPost.cpp \
-    RedditSub.cpp
+    Subreddit.cpp
 HEADERS += \
     FileDownloader.hpp \
     Reddit.hpp \
     RedditPost.hpp \
-    RedditSub.hpp
+    Subreddit.hpp

@@ -1,29 +1,34 @@
 #ifndef REDDIT_HPP
 #define REDDIT_HPP
 
-#include "Subreddit.hpp"
+#include <QtCore/QObject>
 
-#include <QObject>
 #include <memory>
+
+#include "Subreddit.hpp"
 
 class Reddit : public QObject
 {
     Q_OBJECT
 public:
     explicit Reddit(QObject *parent = 0);
-    void addSubreddit(std::shared_ptr<Subreddit> &sub);
-    void addSubreddit(const QString &name);
-    void removeSubreddit(Subreddit *const sub);
-    void removeSubreddit(const QString &name);
 
-    QVector<QString> getSubredditNames() const;
+    Q_INVOKABLE void addSubreddit(const QString &name);
+    Q_INVOKABLE void removeSubreddit(const QString &name);
+
+    QList<QString> getSubredditNames() const;
+
+    Q_INVOKABLE QUrl getSubredditUrl(const QString &name);
+
+    Q_PROPERTY(QList<QString> subredditNames
+               READ getSubredditNames)
 
 signals:
 
 public slots:
 
 private:
-    QVector<std::shared_ptr<Subreddit>> m_subreddits;
+    QMap<QString, std::shared_ptr<Subreddit>> m_subreddits;
 };
 
 #endif // REDDIT_HPP

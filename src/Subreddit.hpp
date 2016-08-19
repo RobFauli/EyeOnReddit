@@ -16,13 +16,14 @@ struct Thresholds {
     double scoreFactor = 3.0;
 };
 
-class RedditSub : public QObject
+class Subreddit : public QObject
 {
     Q_OBJECT
 public:
-    RedditSub(const QString &name);
+    Subreddit(const QString &name);
 
     QString getName() const;
+    QUrl getUrl() const;
     QJsonDocument getJson() const;
     QStringList getFrontpageTitles() const;
     QVector<int> getFrontpageCommentCounts() const;
@@ -37,6 +38,9 @@ signals:
 
 public slots:
     void update();
+
+protected:
+    Subreddit() {} // Needs a ctor with no args to register as QML type.
 
 private:
     void detectActivity();

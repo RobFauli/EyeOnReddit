@@ -1,13 +1,13 @@
 #include <QtCore/QCoreApplication>
 #include "testMacros.hpp"
 #include "catch.hpp"
-#include "RedditSub.hpp"
+#include "Subreddit.hpp"
 
 
 TEST_CASE("Construction from subreddit name", "[Subreddit]")
 {
     SETUP_Q_CORE_APP
-    RedditSub newsSub(QString("news"));
+    Subreddit newsSub(QString("news"));
 
     SECTION("Get correct sub name")
     {
