@@ -24,10 +24,19 @@ ApplicationWindow {
         }
 
         ListView {
+            id: redditView
+            clip: true
             anchors.fill: parent
             model: subredditListModel
-            delegate: Text {
-                text: name
+            delegate: subredditDelegate
+        }
+
+        Component {
+            id: subredditDelegate
+            RowLayout {
+                Text {
+                    text: name
+                }
             }
         }
 
@@ -47,8 +56,9 @@ ApplicationWindow {
                         reddit.addSubreddit(nameInput.text)
                         subredditListModel.clear()
                         for (var i = 0; i < reddit.subredditNames.length; ++i) {
+                            var name = reddit.subredditNames[i]
                             var data = {
-                                "name": reddit.subredditNames[i]
+                                "name": name,
                             }
                             subredditListModel.append(data)
                             console.log(subredditListModel.rowCount())
