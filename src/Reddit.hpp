@@ -21,9 +21,11 @@ public:
     Q_INVOKABLE QUrl getSubredditUrl(const QString &name);
 
     Q_PROPERTY(QList<QString> subredditNames
-               READ getSubredditNames)
+               READ getSubredditNames
+               NOTIFY namesChanged)
 
 signals:
+    void namesChanged();
 
 public slots:
 
