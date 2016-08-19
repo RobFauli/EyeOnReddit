@@ -1,7 +1,7 @@
 #include "Subreddit.hpp"
 Subreddit::Subreddit(const QString &name)
     : m_name(name),
-      m_url("http://www.reddit.com/r/" + name + ".json")
+      m_url("http://www.reddit.com/r/" + name)
 {
     connect(m_timer.get(), &QTimer::timeout, this, &Subreddit::update);
     update();
@@ -79,7 +79,7 @@ void Subreddit::setUpdateIntervals(int milliseconds)
 
 void Subreddit::update()
 {
-    FileDownloader downloader(m_url);
+    FileDownloader downloader(m_url.toString() + ".json");
     QEventLoop wait;
     connect(&downloader, &FileDownloader::downloaded, &wait, &QEventLoop::quit);
     wait.exec();
@@ -88,39 +88,40 @@ void Subreddit::update()
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
     qDebug() << "Created the QJsonDocument object from the .json file.";
     populateFrontPagePosts();
-    qDebug() << "Populated from page posts";
+    qDebug() << "Populated from page posts, with " << m_frontPagePosts.size()
+                << " posts.";
     detectActivity();
 }
 
 void Subreddit::detectActivity()
 {
     if (m_frontPagePosts.size() > 15) {
-    // Above average of X
-    // X: Number of comments
-    double numcom_avg
-            = std::accumulate(
-                m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
-                [](double x, std::shared_ptr<RedditPost> y) {return x + y->getCommentCount();})
-            / m_frontPagePosts.size();
-    Q_FOREACH(const auto &post, m_frontPagePosts)
-        if (!(post->getAlerted()))
-            if (post->getCommentCount() > (numcom_avg * m_thresholds.numCommentsFactor)) {
-                emit postWithHighCommentCount(post->getId());
-                post->setAlerted(true);
-            }
+        // Above average of X
+        // X: Number of comments
+        double numcom_avg
+                = std::accumulate(
+                    m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
+                    [](double x, std::shared_ptr<RedditPost> y) {return x + y->getCommentCount();})
+                / m_frontPagePosts.size();
+        Q_FOREACH(const auto &post, m_frontPagePosts)
+            if (!(post->getAlerted()))
+                if (post->getCommentCount() > (numcom_avg * m_thresholds.numCommentsFactor)) {
+                    emit postWithHighCommentCount(post->getId());
+                    post->setAlerted(true);
+                }
 
-    // X: Score
-    double score_avg
-            = std::accumulate(
-                m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
-                [](double x, std::shared_ptr<RedditPost> y) {return x + y->getScore();})
-            / m_frontPagePosts.size();
-    Q_FOREACH(const auto &post, m_frontPagePosts)
-        if (!(post->getAlerted()))
-            if (post->getScore() > (score_avg * m_thresholds.scoreFactor)) {
-                emit postWithHighScore(post->getId());
-                post->setAlerted(true);
-            }
+        // X: Score
+        double score_avg
+                = std::accumulate(
+                    m_frontPagePosts.cbegin(), m_frontPagePosts.cend(), 0,
+                    [](double x, std::shared_ptr<RedditPost> y) {return x + y->getScore();})
+                / m_frontPagePosts.size();
+        Q_FOREACH(const auto &post, m_frontPagePosts)
+            if (!(post->getAlerted()))
+                if (post->getScore() > (score_avg * m_thresholds.scoreFactor)) {
+                    emit postWithHighScore(post->getId());
+                    post->setAlerted(true);
+                }
     } else
         ;
     qDebug() << "Tried to detect activity in subreddit " << m_name;
