@@ -83,13 +83,9 @@ void Subreddit::update()
     QEventLoop wait;
     connect(&downloader, &FileDownloader::downloaded, &wait, &QEventLoop::quit);
     wait.exec();
-    qDebug() << "Downloaded .json for the subreddit: " << m_name;
 
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
-    qDebug() << "Created the QJsonDocument object from the .json file.";
     populateFrontPagePosts();
-    qDebug() << "Populated from page posts, with " << m_frontPagePosts.size()
-                << " posts.";
     detectActivity();
 }
 
@@ -124,5 +120,4 @@ void Subreddit::detectActivity()
                 }
     } else
         ;
-    qDebug() << "Tried to detect activity in subreddit " << m_name;
 }
