@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>SubFrontpageView.qml</file>
+        <file>RedditView.qml</file>
     </qresource>
 </RCC>

@@ -25,16 +25,34 @@ public:
     QString getName() const;
     QUrl getUrl() const;
     QJsonDocument getJson() const;
-    QStringList getFrontpageTitles() const;
+    Q_INVOKABLE QStringList getFrontpageTitles() const;
     QVector<int> getFrontpageCommentCounts() const;
     QVector<int> getFrontpageScores() const;
     QList<QUrl> getFrontpageDomains() const;
 
     void setUpdateIntervals(int milliseconds);
 
+    Q_PROPERTY(QStringList frontpageTitles
+               READ getFrontpageTitles()
+               NOTIFY frontpageTitlesChanged)
+    Q_PROPERTY(QList<QUrl> frontpageDomains
+               READ getFrontpageDomains()
+               NOTIFY frontpageDomainsChanged)
+    Q_PROPERTY(QVector<int> frontpageScores
+               READ getFrontpageScores
+               NOTIFY frontpageScoresChanged)
+    Q_PROPERTY(QVector<int> frontpageCommentCounts
+               READ getFrontpageCommentCounts
+               NOTIFY frontpageCommentCountsChanged)
+
 signals:
     void postWithHighCommentCount(QString id);
     void postWithHighScore(QString id);
+
+    void frontpageTitlesChanged();
+    void frontpageDomainsChanged();
+    void frontpageScoresChanged();
+    void frontpageCommentCountsChanged();
 
 public slots:
     void update();

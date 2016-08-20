@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Window 2.1
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.3
 import myReddit 0.1
 
 ApplicationWindow {
@@ -14,30 +14,13 @@ ApplicationWindow {
     Rectangle{
         anchors.fill: parent
         Reddit {
-            id: reddit
-            onSubredditNamesChanged: {
-            }
+            id: myReddit
         }
 
-        ListModel {
-            id: subredditListModel
-        }
-
-        ListView {
+        RedditView {
             id: redditView
-            clip: true
+            reddit: myReddit
             anchors.fill: parent
-            model: subredditListModel
-            delegate: subredditDelegate
-        }
-
-        Component {
-            id: subredditDelegate
-            RowLayout {
-                Text {
-                    text: name
-                }
-            }
         }
 
         ToolBar {
@@ -53,17 +36,8 @@ ApplicationWindow {
                 ToolButton {
                     text: "add"
                     onClicked: {
-                        reddit.addSubreddit(nameInput.text)
-                        subredditListModel.clear()
-                        for (var i = 0; i < reddit.subredditNames.length; ++i) {
-                            var name = reddit.subredditNames[i]
-                            var data = {
-                                "name": name,
-                            }
-                            subredditListModel.append(data)
-                            console.log(subredditListModel.rowCount())
-                        }
-
+                        myReddit.addSubreddit(nameInput.text)
+                        redditView.update()
                     }
                 }
             }

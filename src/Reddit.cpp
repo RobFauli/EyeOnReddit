@@ -31,7 +31,7 @@ QUrl Reddit::getSubredditUrl(const QString &name) const
     return m_subreddits[name]->getUrl();
 }
 
-Subreddit & Reddit::getSubreddit(const QString &name) const
+Subreddit *Reddit::getSubreddit(const QString &name) const
 {
-    return *m_subreddits[name];
+    return m_subreddits[name].get();
 }
