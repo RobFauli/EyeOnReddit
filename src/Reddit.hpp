@@ -2,6 +2,7 @@
 #define REDDIT_HPP
 
 #include <QtCore/QObject>
+#include <QtQml/QQmlEngine>
 
 #include <memory>
 
