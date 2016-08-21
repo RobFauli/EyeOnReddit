@@ -21,6 +21,13 @@ ApplicationWindow {
             id: redditView
             reddit: myReddit
             anchors.fill: parent
+
+            // For testing:
+            Component.onCompleted: {
+                myReddit.addSubreddit("news")
+                myReddit.addSubreddit("globaloffensive")
+                update()
+            }
         }
 
         ToolBar {

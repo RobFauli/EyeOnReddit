@@ -46,9 +46,9 @@ Item {
                 Layout.fillWidth: true
                 leftPadding: 4
                 anchors.verticalCenter: removeButton.verticalCenter
-                text: name
+                text: "/r/" + name
             }
-            ToolButton {
+            Button {
                 id: collapseButton
                 Layout.row: 0
                 Layout.column: 2
@@ -59,7 +59,7 @@ Item {
                         subFrontpageView.update(name)
                 }
             }
-            ToolButton {
+            Button {
                 id: removeButton
                 Layout.row: 0
                 Layout.column: 3
@@ -74,7 +74,9 @@ Item {
                 reddit: redditView.reddit
                 Layout.row: 1
                 Layout.columnSpan: 4
-                height: 100
+                Layout.minimumHeight: redditListView.height/3;
+                Layout.maximumHeight: redditListView.height/2;
+                //Layout.fillHeight: true
                 Layout.fillWidth: true
 
                 visible: expanded

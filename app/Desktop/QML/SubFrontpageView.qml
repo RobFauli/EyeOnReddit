@@ -1,6 +1,5 @@
 import QtQuick 2.7
 import QtQuick.Window 2.1
-import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import myReddit 0.1
 
@@ -35,9 +34,36 @@ Item {
         anchors.fill: parent
         clip: true
 
+        spacing: 4
+
         model: subFrontpageListModel
-        delegate: Text {
-            text: title
+        delegate: subFrontPageTitleDelegate
+    }
+
+    Component {
+        id: subFrontPageTitleDelegate
+        Rectangle {
+            width: ListView.view.width
+            height: titleText.contentHeight
+
+            GridLayout {
+                property int collapseAtWidth: 200
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.columnSpan: 1
+                Rectangle {
+                    Layout.row: 0
+                    Layout.minimumHeight: 15
+                    Layout.fillWidth: true
+                    Text {
+                        id: titleText
+                        padding: 8
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: title
+                        color: "blue"
+                    }
+                }
+            }
         }
     }
 }
