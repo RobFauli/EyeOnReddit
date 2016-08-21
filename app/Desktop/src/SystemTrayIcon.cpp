@@ -5,7 +5,7 @@ SystemTrayIcon::SystemTrayIcon(QSystemTrayIcon *parent) : QSystemTrayIcon(parent
 
 }
 
-void SystemTrayIcon::initialize(QQmlApplicationEngine *engine, const QIcon &icon)
+void SystemTrayIcon::initialize(QQmlApplicationEngine *engine)
 {
     QObject *root = engine->rootObjects().at(0);
 
@@ -23,5 +23,19 @@ void SystemTrayIcon::initialize(QQmlApplicationEngine *engine, const QIcon &icon
     trayIconMenu->addAction(quitAction);
 
     setContextMenu(trayIconMenu);
-    setIcon(icon);
+    setIcon(defaultIcon);
+}
+
+void SystemTrayIcon::setAlert(bool alert)
+{
+    if (alert) {
+        setIcon(alertIcon);
+    } else {
+        setIcon(defaultIcon);
+    }
+}
+
+void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
+{
+    qDebug() << "type: " << type << " subname: " << subname << " id: " << id;
 }

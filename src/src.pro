@@ -2,8 +2,7 @@ include (../defaults.pri)
 
 TARGET = backend
 TEMPLATE = lib
-
-QT += network
+QT += network qml
 
 SOURCES += \
     FileDownloader.cpp \

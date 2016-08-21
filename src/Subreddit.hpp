@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTimer>
+#include <QtCore/QObject>
 #include <memory>
 #include "FileDownloader.hpp"
 #include "RedditPost.hpp"
@@ -20,6 +21,11 @@ class Subreddit : public QObject
 {
     Q_OBJECT
 public:
+    enum class AlertType {
+        X_TIMES_AVG_COMMENTS, X_TIMES_AVG_SCORE
+    };
+    Q_ENUM(AlertType)
+
     Subreddit(const QString &name);
 
     QString getName() const;
@@ -46,8 +52,7 @@ public:
                NOTIFY frontpageCommentCountsChanged)
 
 signals:
-    void postWithHighCommentCount(QString id);
-    void postWithHighScore(QString id);
+    void postAlert(AlertType type, const QString &subname, const QString &id);
 
     void frontpageTitlesChanged();
     void frontpageDomainsChanged();
@@ -75,6 +80,8 @@ private:
 
     Thresholds m_thresholds;
 };
+
+Q_DECLARE_METATYPE(Subreddit::AlertType)
 
 inline QJsonObject preparepost(const QJsonValue &post)
 {

@@ -29,8 +29,10 @@ public:
 
 signals:
     void namesChanged();
+    void postAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
 
 public slots:
+    void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
 
 private:
     QMap<QString, std::shared_ptr<Subreddit>> m_subreddits;

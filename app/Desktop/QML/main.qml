@@ -15,12 +15,15 @@ ApplicationWindow {
         anchors.fill: parent
         Reddit {
             id: myReddit
+            onPostAlert: tray.setAlert(true)
         }
 
         RedditView {
             id: redditView
             reddit: myReddit
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height - toolbar.height
+            anchors.top: parent.top
 
             // For testing:
             Component.onCompleted: {
@@ -31,6 +34,7 @@ ApplicationWindow {
         }
 
         ToolBar {
+            id: toolbar
             width: parent.width
             anchors.bottom: parent.bottom
             RowLayout{

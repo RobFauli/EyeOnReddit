@@ -14,6 +14,11 @@ void Reddit::addSubreddit(const QString &name)
     } else {
         m_subreddits[name] = std::make_shared<Subreddit>(name);
 
+        connect(m_subreddits[name].get(), &Subreddit::postAlert,
+                this, &Reddit::receivePostAlert);
+
+        m_subreddits[name]->setUpdateIntervals(10000);
+
         // Avoid constructor call from QMLJS by setting ownership to C++
         QQmlEngine::setObjectOwnership(m_subreddits[name].get(),
                                        QQmlEngine::CppOwnership);
@@ -40,4 +45,11 @@ QUrl Reddit::getSubredditUrl(const QString &name) const
 Subreddit *Reddit::getSubreddit(const QString &name) const
 {
     return m_subreddits[name].get();
+}
+
+void Reddit::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
+{
+    qDebug() << "Reddit alerted about post in /r/" + subname + ":";
+    qDebug() << "id: " + id;
+    emit postAlert(type, subname, id);
 }

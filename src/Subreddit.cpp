@@ -1,7 +1,8 @@
 #include "Subreddit.hpp"
 Subreddit::Subreddit(const QString &name)
     : m_name(name),
-      m_url("http://www.reddit.com/r/" + name)
+      m_url("http://www.reddit.com/r/" + name),
+      m_timer(std::make_unique<QTimer>())
 {
     connect(m_timer.get(), &QTimer::timeout, this, &Subreddit::update);
     update();
@@ -79,14 +80,15 @@ void Subreddit::setUpdateIntervals(int milliseconds)
 
 void Subreddit::update()
 {
-    FileDownloader downloader(m_url.toString() + ".json");
+    FileDownloader downloader(m_url.toString() + "/hot/.json");
     QEventLoop wait;
     connect(&downloader, &FileDownloader::downloaded, &wait, &QEventLoop::quit);
     wait.exec();
 
     m_json = QJsonDocument().fromJson(downloader.downloadedData().toStdString().c_str());
     populateFrontPagePosts();
-    detectActivity();
+    if (m_timer->isActive())
+        detectActivity();
 }
 
 void Subreddit::detectActivity()
@@ -102,7 +104,7 @@ void Subreddit::detectActivity()
         Q_FOREACH(const auto &post, m_frontPagePosts)
             if (!(post->getAlerted()))
                 if (post->getCommentCount() > (numcom_avg * m_thresholds.numCommentsFactor)) {
-                    emit postWithHighCommentCount(post->getId());
+                    emit postAlert(AlertType::X_TIMES_AVG_COMMENTS, m_name, post->getId());
                     post->setAlerted(true);
                 }
 
@@ -115,9 +117,9 @@ void Subreddit::detectActivity()
         Q_FOREACH(const auto &post, m_frontPagePosts)
             if (!(post->getAlerted()))
                 if (post->getScore() > (score_avg * m_thresholds.scoreFactor)) {
-                    emit postWithHighScore(post->getId());
+                    emit postAlert(AlertType::X_TIMES_AVG_SCORE, m_name, post->getId());
                     post->setAlerted(true);
                 }
-    } else
-        ;
+    } else {
+    }
 }
