@@ -3,7 +3,7 @@ TEMPLATE = app
 
 CONFIG += console
 CONFIG += app_bundle
-QT += network
+QT += network qml
 
 SOURCES += \
     main.cpp \
