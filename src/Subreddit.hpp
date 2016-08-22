@@ -1,13 +1,14 @@
 #ifndef PHYSICSSANDBOX_SUBREDDIT_H
 #define PHYSICSSANDBOX_SUBREDDIT_H
 
+#include <QtCore/QObject>
+#include <QtQml/QQmlEngine>
 #include <QUrl>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTimer>
-#include <QtCore/QObject>
 #include <memory>
 #include "FileDownloader.hpp"
 #include "RedditPost.hpp"
@@ -35,6 +36,8 @@ public:
     QVector<int> getFrontpageCommentCounts() const;
     QVector<int> getFrontpageScores() const;
     QList<QUrl> getFrontpageDomains() const;
+
+    Q_INVOKABLE RedditPost* getPost(const QString &id) const;
 
     void setUpdateIntervals(int milliseconds);
 

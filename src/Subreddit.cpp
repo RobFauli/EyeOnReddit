@@ -72,6 +72,13 @@ QList<QUrl> Subreddit::getFrontpageDomains() const
     return domains;
 }
 
+RedditPost* Subreddit::getPost(const QString &id) const
+{
+    QQmlEngine::setObjectOwnership(m_frontPagePosts[id].get(),
+                                   QQmlEngine::CppOwnership);
+    return m_frontPagePosts[id].get();
+}
+
 void Subreddit::setUpdateIntervals(int milliseconds)
 {
     m_timer->setInterval(milliseconds);
