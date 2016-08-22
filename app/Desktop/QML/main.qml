@@ -6,7 +6,7 @@ import myReddit 0.1
 
 ApplicationWindow {
     id: root
-    title: "IntelliReddit"
+    title: "Eye on Reddit"
     visible: true
     width: 360
     height: 360
@@ -15,7 +15,11 @@ ApplicationWindow {
         anchors.fill: parent
         Reddit {
             id: myReddit
-            onPostAlert: tray.setAlert(true)
+            onPostAlert: {
+                tray.receivePostAlert(type, subname,
+                                      getSubreddit(subname).getPost(id).title)
+                tray.setAlert(true)
+            }
         }
 
         RedditView {

@@ -35,7 +35,11 @@ void SystemTrayIcon::setAlert(bool alert)
     }
 }
 
-void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
+void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &title)
 {
-    qDebug() << "type: " << type << " subname: " << subname << " id: " << id;
+    qDebug() << "type: " << type << ", subname: " << subname;
+    qDebug() << " title: " << title;
+
+    if (supportsMessages())
+        showMessage("Important post in /r/" + subname + ":", title);
 }

@@ -27,8 +27,7 @@ public:
 
     Q_INVOKABLE void setAlert(bool alert);
 
-public slots:
-    void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
+    Q_INVOKABLE void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
 
 private:
     QIcon alertIcon = QIcon(":/assets/Icons/512x512/reddit_icon_red.png");
