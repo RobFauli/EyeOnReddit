@@ -19,7 +19,7 @@ public:
     QString getTitle();
     int getCommentCount();
     int getScore();
-    QUrl getPermalink();
+    QString getPermalink();
 
     void setAlerted(bool alerted) { m_alerted = alerted; }
     bool getAlerted() { return m_alerted; }
@@ -28,7 +28,7 @@ public:
     Q_PROPERTY(QUrl domain READ getDomain NOTIFY domainChanged)
     Q_PROPERTY(int commentCount READ getCommentCount NOTIFY commentCountChanged)
     Q_PROPERTY(int score READ getScore NOTIFY scoreChanged)
-    Q_PROPERTY(QUrl permalink READ getPermalink NOTIFY permalinkChanged)
+    Q_PROPERTY(QString permalink READ getPermalink NOTIFY permalinkChanged)
 
 signals:
     void titleChanged();

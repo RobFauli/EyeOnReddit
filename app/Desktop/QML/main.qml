@@ -16,9 +16,11 @@ ApplicationWindow {
         Reddit {
             id: myReddit
             onPostAlert: {
-                tray.receivePostAlert(type, subname,
-                                      getSubreddit(subname).getPost(id).title)
-                tray.setAlert(true)
+                tray.alert = true
+                var subreddit = getSubreddit(subname)
+                var post = subreddit.getPost(id)
+                tray.receivePostAlert(type, subname, post.title)
+                subreddit.setPostImportantStatus(id, true)
             }
         }
 

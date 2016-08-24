@@ -36,7 +36,7 @@ int RedditPost::getScore()
     return m_data.last()["score"].toInt();
 }
 
-QUrl RedditPost::getPermalink()
+QString RedditPost::getPermalink()
 {
-    return m_data.last()["permalink"].toString();
+    return "https://www.reddit.com" + m_data.last()["permalink"].toString();
 }

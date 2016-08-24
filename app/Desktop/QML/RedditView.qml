@@ -56,7 +56,7 @@ Item {
                 onClicked: {
                     expanded = !expanded
                     if (expanded)
-                        subFrontpageView.update(name)
+                        subredditAlertView.update(name)
                 }
             }
             Button {
@@ -69,8 +69,8 @@ Item {
                     redditView.update()
                 }
             }
-            SubFrontpageView {
-                id: subFrontpageView
+            SubredditAlertView {
+                id: subredditAlertView
                 reddit: redditView.reddit
                 Layout.row: 1
                 Layout.columnSpan: 4

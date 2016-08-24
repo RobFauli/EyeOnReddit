@@ -29,6 +29,8 @@ public:
 
     Subreddit(const QString &name);
 
+    Q_INVOKABLE void setPostImportantStatus(const QString &id, bool important);
+
     QString getName() const;
     QUrl getUrl() const;
     QJsonDocument getJson() const;
@@ -37,22 +39,22 @@ public:
     QVector<int> getFrontpageScores() const;
     QList<QUrl> getFrontpageDomains() const;
 
+    QList<QString> getImportantPosts() const;
+
     Q_INVOKABLE RedditPost* getPost(const QString &id) const;
 
     void setUpdateIntervals(int milliseconds);
 
-    Q_PROPERTY(QStringList frontpageTitles
-               READ getFrontpageTitles()
+    Q_PROPERTY(QStringList frontpageTitles READ getFrontpageTitles()
                NOTIFY frontpageTitlesChanged)
-    Q_PROPERTY(QList<QUrl> frontpageDomains
-               READ getFrontpageDomains()
+    Q_PROPERTY(QList<QUrl> frontpageDomains READ getFrontpageDomains()
                NOTIFY frontpageDomainsChanged)
-    Q_PROPERTY(QVector<int> frontpageScores
-               READ getFrontpageScores
+    Q_PROPERTY(QVector<int> frontpageScores READ getFrontpageScores
                NOTIFY frontpageScoresChanged)
-    Q_PROPERTY(QVector<int> frontpageCommentCounts
-               READ getFrontpageCommentCounts
+    Q_PROPERTY(QVector<int> frontpageCommentCounts READ getFrontpageCommentCounts
                NOTIFY frontpageCommentCountsChanged)
+
+    Q_PROPERTY(QList<QString> importantPostIds READ getImportantPosts NOTIFY importantPostsChanged)
 
 signals:
     void postAlert(AlertType type, const QString &subname, const QString &id);
@@ -61,6 +63,8 @@ signals:
     void frontpageDomainsChanged();
     void frontpageScoresChanged();
     void frontpageCommentCountsChanged();
+
+    void importantPostsChanged();
 
 public slots:
     void update();
@@ -82,6 +86,7 @@ private:
     std::unique_ptr<QTimer> m_timer;
 
     Thresholds m_thresholds;
+    QSet<QString> m_importantPosts; // Important posts that have not been seen or dismissed.
 };
 
 Q_DECLARE_METATYPE(Subreddit::AlertType)

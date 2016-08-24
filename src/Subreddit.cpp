@@ -7,6 +7,21 @@ Subreddit::Subreddit(const QString &name)
     connect(m_timer.get(), &QTimer::timeout, this, &Subreddit::update);
     update();
 }
+
+void Subreddit::setPostImportantStatus(const QString &id, bool important)
+{
+    if (important){
+        getPost(id)->setAlerted(true);
+
+        if (!m_importantPosts.contains(id))
+            m_importantPosts << (id);
+        else {
+        }
+    } else {
+        if (m_importantPosts.contains(id))
+            m_importantPosts.remove(id);
+    }
+}
 QString Subreddit::getName() const
 {
     return m_name;
@@ -43,7 +58,9 @@ void Subreddit::populateFrontPagePosts()
         if (m_frontPagePosts.contains(id)) {
             m_frontPagePosts[id]->addData(postObject);
         } else {
-            m_frontPagePosts.insert(postObject["id"].toString(), std::make_shared<RedditPost>(postObject));
+            std::shared_ptr<RedditPost> redditpost = std::make_shared<RedditPost>(postObject);
+            QQmlEngine::setObjectOwnership(redditpost.get(), QQmlEngine::CppOwnership);
+            m_frontPagePosts.insert(postObject["id"].toString(), redditpost);
         }
     }
 }
@@ -70,6 +87,11 @@ QList<QUrl> Subreddit::getFrontpageDomains() const
         domains << post->getDomain();
     }
     return domains;
+}
+
+QList<QString> Subreddit::getImportantPosts() const
+{
+    return m_importantPosts.toList();
 }
 
 RedditPost* Subreddit::getPost(const QString &id) const
