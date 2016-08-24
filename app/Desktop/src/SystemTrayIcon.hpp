@@ -25,13 +25,21 @@ public:
 
     void initialize(QQmlApplicationEngine *engine);
 
-    Q_INVOKABLE void setAlert(bool alert);
+    Q_INVOKABLE void setAlert(bool m_alert);
+    bool getAlert();
 
     Q_INVOKABLE void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
+
+    Q_PROPERTY(bool alert READ getAlert WRITE setAlert NOTIFY alertChanged)
+
+signals:
+    void alertChanged();
 
 private:
     QIcon alertIcon = QIcon(":/assets/Icons/512x512/reddit_icon_red.png");
     QIcon defaultIcon = QIcon(":/assets/Icons/96x96/reddit_icon_circle.png");
+
+    bool m_alert;
 };
 
 #endif // SYSTEMTRAYICON_HPP

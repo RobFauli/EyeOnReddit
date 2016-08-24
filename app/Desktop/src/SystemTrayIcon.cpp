@@ -28,18 +28,25 @@ void SystemTrayIcon::initialize(QQmlApplicationEngine *engine)
 
 void SystemTrayIcon::setAlert(bool alert)
 {
-    if (alert) {
-        setIcon(alertIcon);
+    if (m_alert != alert) {
+        m_alert = alert;
+        if (m_alert) {
+            setIcon(alertIcon);
+        } else {
+            setIcon(defaultIcon);
+        }
+        emit alertChanged();
     } else {
-        setIcon(defaultIcon);
     }
+}
+
+bool SystemTrayIcon::getAlert()
+{
+   return m_alert;
 }
 
 void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &title)
 {
-    qDebug() << "type: " << type << ", subname: " << subname;
-    qDebug() << " title: " << title;
-
     if (supportsMessages())
-        showMessage("Important post in /r/" + subname + ":", title);
+        showMessage("Important post(s) in /r/" + subname + ":", title);
 }
