@@ -6,7 +6,6 @@ bin/*
 *CMakeFiles
 *cmake_install.cmake
 *Makefile
-main.cpp
 CMakeLists.txt.user
 *.pro.user
 *.kdev4
