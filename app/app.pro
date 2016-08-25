@@ -32,3 +32,9 @@ DISTFILES += \
     QML/android_main.qml \
     Assets/Icons/256x256/reddit_logo.png \
     Assets/Icons/96x96/reddit_icon_circle.png
+
+HEADERS += \
+    Desktop/src/Settings.hpp
+
+SOURCES += \
+    Desktop/src/Settings.cpp

@@ -10,6 +10,19 @@ Window {
     width: 360
     height: 360
 
+    // @disable-check M16
+    onClosing: {
+        var xcoord = x
+        var ycoord = y
+        settings.setValue("x", xcoord)
+        settings.setValue("y", ycoord)
+        settings.sync()
+    }
+
+    x: settings.value("x")
+    y: settings.value("y")
+
+
     Rectangle{
         anchors.fill: parent
 //        Reddit {

@@ -6,8 +6,8 @@
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
-#include <QtCore/QSettings>
 
+#include "Settings.hpp"
 #include "SystemTrayIcon.hpp"
 
 #include <QDebug>
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
 
     QApplication app(argc, argv);
-    QSettings settings("robfauli", "EyeOnReddit");
+    Settings settings("robfauli", "EyeOnReddit");
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         QMessageBox::critical(0, "Systray",
@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
         settings.sync();
     });
     engine.rootContext()->setContextProperty("myReddit", &reddit);
+    engine.rootContext()->setContextProperty("settings", &settings);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     tray.initialize(&engine);
