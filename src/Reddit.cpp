@@ -22,6 +22,7 @@ void Reddit::addSubreddit(const QString &name)
         // Avoid constructor call from QMLJS by setting ownership to C++
         QQmlEngine::setObjectOwnership(m_subreddits[name].get(),
                                        QQmlEngine::CppOwnership);
+        emit subredditNamesChanged();
 
         qDebug() << "Subreddit named " << name << " has been added.";
     }
@@ -30,6 +31,7 @@ void Reddit::addSubreddit(const QString &name)
 void Reddit::removeSubreddit(const QString &name)
 {
     m_subreddits.remove(name);
+    emit subredditNamesChanged();
 }
 
 QList<QString> Reddit::getSubredditNames() const
@@ -49,7 +51,5 @@ Subreddit *Reddit::getSubreddit(const QString &name) const
 
 void Reddit::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
 {
-    qDebug() << "Reddit alerted about post in /r/" + subname + ":";
-    qDebug() << "id: " + id;
     emit postAlert(type, subname, id);
 }
