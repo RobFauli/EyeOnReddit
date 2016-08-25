@@ -7,7 +7,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QApplication>
 #include <QtQml/QQmlApplicationEngine>
-#include <QtQuick/QQuickWindow>
 
 #include <memory>
 

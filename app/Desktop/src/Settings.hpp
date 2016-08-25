@@ -15,6 +15,5 @@ public:
                                const QVariant &defaultValue = QVariant()) const;
     Q_INVOKABLE void sync() { QSettings::sync(); }
 };
-Q_DECLARE_METATYPE(Settings*)
 
 #endif // SETTINGS_HPP

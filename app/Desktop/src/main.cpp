@@ -1,16 +1,10 @@
-#include <QtCore/QFileInfo>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
 
 #include "Settings.hpp"
 #include "SystemTrayIcon.hpp"
-
-#include <QDebug>
 #include "Reddit.hpp"
 
 
