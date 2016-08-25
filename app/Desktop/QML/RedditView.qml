@@ -81,7 +81,10 @@ Item {
 
                 visible: expanded
 
-                onCleared: expanded = false
+                onCleared: {
+                    expanded = false
+                    tray.setAlert(reddit.anyAlerts())
+                }
 
                 function minHeight(n) {
                     var delegateHeight = contentHeight / count

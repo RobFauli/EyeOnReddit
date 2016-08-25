@@ -44,6 +44,18 @@ QUrl Reddit::getSubredditUrl(const QString &name) const
     return m_subreddits[name]->getUrl();
 }
 
+bool Reddit::anyAlerts()
+{
+    bool state = false;
+    Q_FOREACH(const auto &subreddit, m_subreddits) {
+        if (subreddit->getImportantPosts().size() != 0) {
+            state = true;
+            break;
+        }
+    }
+    return state;
+}
+
 Subreddit *Reddit::getSubreddit(const QString &name) const
 {
     return m_subreddits[name].get();
