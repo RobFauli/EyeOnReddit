@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>RedditView.qml</file>
         <file>SubredditAlertView.qml</file>
+        <file>Button.qml</file>
     </qresource>
 </RCC>

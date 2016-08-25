@@ -57,26 +57,13 @@ Item {
                     color: "blue"
                 }
             }
-            Rectangle {
+            Button {
                 id: openButton
                 Layout.row: 0
                 Layout.column: 1
-                Layout.minimumWidth: buttonText.contentWidth + 4
-
-                signal clicked
                 onClicked: {
                     var url = permalink
                     Qt.openUrlExternally(url)
-                }
-
-                Text{
-                    id: buttonText
-                    anchors.centerIn: parent
-                    text: "Open"
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: parent.clicked()
                 }
             }
         }

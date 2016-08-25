@@ -1,10 +1,9 @@
 import QtQuick 2.7
 import QtQuick.Window 2.1
-import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import myReddit 0.1
 
-ApplicationWindow {
+Window {
     id: root
     title: "Eye on Reddit"
     visible: true
@@ -39,18 +38,23 @@ ApplicationWindow {
             }
         }
 
-        ToolBar {
+        Rectangle {
             id: toolbar
             width: parent.width
+            height: addButton.height
             anchors.bottom: parent.bottom
             RowLayout{
                 anchors.fill: parent
-                TextField {
+                TextInput {
                     id: nameInput
-                    placeholderText: "subname"
+                    height: addButton.height
+                    Layout.fillWidth: true
+                    text: "subname"
+                    //placeholderText: "subname"
                 }
 
-                ToolButton {
+                Button {
+                    id: addButton
                     text: "add"
                     onClicked: {
                         myReddit.addSubreddit(nameInput.text)
