@@ -30,7 +30,6 @@ Window {
             height: parent.height - toolbar.height
             anchors.top: parent.top
 
-            // For testing:
             Component.onCompleted: {
                 update()
             }
