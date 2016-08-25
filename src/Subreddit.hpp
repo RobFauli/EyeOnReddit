@@ -32,6 +32,7 @@ public:
     Subreddit(const QString &name);
 
     Q_INVOKABLE void setPostImportantStatus(const QString &id, bool important);
+    Q_INVOKABLE void clearImportantPosts();
 
     QString getName() const;
     QUrl getUrl() const;

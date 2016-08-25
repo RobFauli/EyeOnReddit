@@ -22,6 +22,11 @@ void Subreddit::setPostImportantStatus(const QString &id, bool important)
             m_importantPosts.remove(id);
     }
 }
+
+void Subreddit::clearImportantPosts()
+{
+    m_importantPosts.clear();
+}
 QString Subreddit::getName() const
 {
     return m_name;
