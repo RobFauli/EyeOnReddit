@@ -32,8 +32,6 @@ Window {
 
             // For testing:
             Component.onCompleted: {
-                myReddit.addSubreddit("news")
-                myReddit.addSubreddit("globaloffensive")
                 update()
             }
         }
