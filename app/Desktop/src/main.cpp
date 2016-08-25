@@ -1,3 +1,4 @@
+#include <QtCore/QFileInfo>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QtWidgets/QAction>
@@ -5,6 +6,7 @@
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
+#include <QtCore/QSettings>
 
 #include "SystemTrayIcon.hpp"
 
@@ -14,7 +16,10 @@
 
 int main(int argc, char *argv[])
 {
+
+
     QApplication app(argc, argv);
+    QSettings settings("robfauli", "EyeOnReddit");
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         QMessageBox::critical(0, "Systray",
@@ -35,6 +40,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("tray", &tray);
 
     Reddit reddit;
+    auto subnames = settings.value("subnames").toList();
+    Q_FOREACH(const auto &subname, subnames)
+        reddit.addSubreddit(subname.toString());
+
     QObject::connect(&reddit, &Reddit::postAlert,
             [&tray, &reddit]
                      (Subreddit::AlertType type, const QString &subname,
@@ -47,6 +56,12 @@ int main(int argc, char *argv[])
             subreddit->setPostImportantStatus(id, true);
         }
     );
+
+    QObject::connect(&reddit, &Reddit::subredditNamesChanged,
+                     [&reddit, &settings] () {
+        settings.setValue("subnames", QVariant(reddit.getSubredditNames()));
+        settings.sync();
+    });
     engine.rootContext()->setContextProperty("myReddit", &reddit);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
