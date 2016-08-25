@@ -50,7 +50,9 @@ Window {
                     height: addButton.height
                     Layout.fillWidth: true
                     text: "subname"
-                    //placeholderText: "subname"
+
+                    Keys.onEnterPressed: addButton.clicked()
+                    Keys.onReturnPressed: addButton.clicked()
                 }
 
                 Button {
