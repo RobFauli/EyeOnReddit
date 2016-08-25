@@ -3,6 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtQml/QQmlEngine>
+#include <QDebug>
 
 #include <memory>
 

@@ -2,6 +2,8 @@
 #define PHYSICSSANDBOX_SUBREDDIT_H
 
 #include <QtCore/QObject>
+#include <QtCore/QSet>
+#include <QtCore/QVector>
 #include <QtQml/QQmlEngine>
 #include <QUrl>
 #include <QEventLoop>
