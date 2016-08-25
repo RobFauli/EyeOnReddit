@@ -13,19 +13,24 @@ void Subreddit::setPostImportantStatus(const QString &id, bool important)
     if (important){
         getPost(id)->setAlerted(true);
 
-        if (!m_importantPosts.contains(id))
+        if (!m_importantPosts.contains(id)) {
             m_importantPosts << (id);
+            emit importantPostsChanged();
+        }
         else {
         }
     } else {
-        if (m_importantPosts.contains(id))
+        if (m_importantPosts.contains(id)) {
             m_importantPosts.remove(id);
+            emit importantPostsChanged();
+        }
     }
 }
 
 void Subreddit::clearImportantPosts()
 {
     m_importantPosts.clear();
+    emit importantPostsChanged();
 }
 QString Subreddit::getName() const
 {
