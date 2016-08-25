@@ -88,7 +88,7 @@ Item {
 
                 function minHeight(n) {
                     var delegateHeight = contentHeight / count
-                    return (n * delegateHeight + 0.0 * delegateHeight)
+                    return (n * delegateHeight + 0.5 * delegateHeight)
                 }
             }
         }
