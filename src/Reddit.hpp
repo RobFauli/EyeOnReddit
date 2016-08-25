@@ -26,10 +26,10 @@ public:
 
     Q_PROPERTY(QList<QString> subredditNames
                READ getSubredditNames
-               NOTIFY namesChanged)
+               NOTIFY subredditNamesChanged)
 
 signals:
-    void namesChanged();
+    void subredditNamesChanged();
     void postAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
 
 public slots:
