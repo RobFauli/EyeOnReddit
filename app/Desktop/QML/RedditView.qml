@@ -71,14 +71,22 @@ Item {
             SubredditAlertView {
                 id: subredditAlertView
                 reddit: redditView.reddit
+                subname: name
+
                 Layout.row: 1
                 Layout.columnSpan: 4
-                Layout.minimumHeight: redditListView.height/3;
-                Layout.maximumHeight: redditListView.height/2;
-                //Layout.fillHeight: true
+                Layout.minimumHeight: (count < 4) ? minHeight(count) : minHeight(4)
+                Layout.maximumHeight: (count == 0) ? 0 : redditListView.height/2;
                 Layout.fillWidth: true
 
                 visible: expanded
+
+                onCleared: expanded = false
+
+                function minHeight(n) {
+                    var delegateHeight = contentHeight / count
+                    return (n * delegateHeight + 0.0 * delegateHeight)
+                }
             }
         }
     }

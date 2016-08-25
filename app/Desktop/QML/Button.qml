@@ -7,17 +7,25 @@ Rectangle {
 
     property alias text: buttonText.text
 
-    width: buttonText.contentWidth + 4
+    width: 80
     height: buttonText.contentHeight + 2
+
+    // Default look:
+    property color basecolor: "lightgrey"
+    color: mouseArea.containsPress ? Qt.lighter(basecolor) : basecolor
+    border.color: Qt.lighter(basecolor)
+    radius: 5
+
     
     signal clicked
     
     Text{
         id: buttonText
         anchors.centerIn: parent
-        text: "Open"
+        text: "Button"
     }
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         onClicked: root.clicked()
     }

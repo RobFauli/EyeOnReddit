@@ -5,16 +5,22 @@ import myReddit 0.1
 Item {
     id: subredditAlertView
     property Reddit reddit
+    property string subname
+    property alias count: subredditAlertsModel.count
+    property alias contentHeight: view.contentHeight
 
-    function update(subName) {
+    signal cleared()
+
+    function update() {
         subredditAlertsModel.clear()
-        var subreddit = reddit.getSubreddit(subName)
+        var subreddit = reddit.getSubreddit(subname)
         var importantPostIds = subreddit.importantPostIds
         for (var i = 0; i<importantPostIds.length; ++i) {
             var post = subreddit.getPost(importantPostIds[i])
             var data = {
                 "title": post.title,
-                "permalink": post.permalink
+                "permalink": post.permalink,
+                "visited": false
             }
             subredditAlertsModel.append(data)
         }
@@ -26,7 +32,7 @@ Item {
     }
 
     ListView {
-        id: subFrontPageView
+        id: view
         anchors.fill: parent
         clip: true
 
@@ -34,6 +40,18 @@ Item {
 
         model: subredditAlertsModel
         delegate: subFrontPageTitleDelegate
+
+        headerPositioning: ListView.OverlayFooter
+        header: Button {
+            text: "Clear list"
+            width: ListView.view.width
+            onClicked: {
+                var sub = reddit.getSubreddit(subname)
+                sub.clearImportantPosts()
+                subredditAlertView.update()
+                cleared()
+            }
+        }
     }
 
     Component {
@@ -54,16 +72,18 @@ Item {
                     padding: 8
                     anchors.verticalCenter: parent.verticalCenter
                     text: title
-                    color: "blue"
+                    color: visited ? "purple" : "blue"
                 }
             }
             Button {
                 id: openButton
                 Layout.row: 0
                 Layout.column: 1
+                text: "Open"
                 onClicked: {
                     var url = permalink
                     Qt.openUrlExternally(url)
+                    visited = true
                 }
             }
         }

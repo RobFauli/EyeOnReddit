@@ -12,16 +12,16 @@ Window {
 
     Rectangle{
         anchors.fill: parent
-        Reddit {
-            id: myReddit
-            onPostAlert: {
-                tray.alert = true
-                var subreddit = getSubreddit(subname)
-                var post = subreddit.getPost(id)
-                tray.receivePostAlert(type, subname, post.title)
-                subreddit.setPostImportantStatus(id, true)
-            }
-        }
+//        Reddit {
+//            id: myReddit
+//            onPostAlert: {
+//                tray.alert = true
+//                var subreddit = getSubreddit(subname)
+//                var post = subreddit.getPost(id)
+//                tray.receivePostAlert(type, subname, post.title)
+//                subreddit.setPostImportantStatus(id, true)
+//            }
+//        }
 
         RedditView {
             id: redditView
@@ -47,9 +47,20 @@ Window {
                 anchors.fill: parent
                 TextInput {
                     id: nameInput
-                    height: addButton.height
                     Layout.fillWidth: true
-                    text: "subname"
+                    height: addButton.height
+                    leftPadding: 4
+
+                    text: ""
+
+                    Text {
+                        id: hint
+                        anchors.verticalCenter: parent.verticalCenter
+                        leftPadding: parent.leftPadding
+                        color: "lightgrey"
+                        text: (parent.length == 0) ? "Input the name of a subreddit" : ""
+
+                    }
 
                     Keys.onEnterPressed: addButton.clicked()
                     Keys.onReturnPressed: addButton.clicked()
@@ -60,6 +71,7 @@ Window {
                     text: "add"
                     onClicked: {
                         myReddit.addSubreddit(nameInput.text)
+                        nameInput.text = ""
                         redditView.update()
                     }
                 }
