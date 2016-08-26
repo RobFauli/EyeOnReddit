@@ -24,8 +24,7 @@ unix:!android|win32|win64 {
 
 RESOURCES += Assets/assets.qrc
 
-LIBS += \
-    -L../src -lbackend
+LIBS += ../src/libbackend.a
 
 
 DISTFILES += \
@@ -38,3 +37,8 @@ HEADERS += \
 
 SOURCES += \
     Desktop/src/Settings.cpp
+TARGET = EyeOnReddit
+unix:!android {
+    target.path = /usr/local/EyeOnReddit/bin
+    INSTALLS += target
+}
