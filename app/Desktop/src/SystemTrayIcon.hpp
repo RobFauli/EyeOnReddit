@@ -2,6 +2,7 @@
 #define SYSTEMTRAYICON_HPP
 
 #include <QtCore/QObject>
+#include <QtGui/QWindow>
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
@@ -34,11 +35,16 @@ public:
 signals:
     void alertChanged();
 
+public slots:
+    void activatedSlot(QSystemTrayIcon::ActivationReason reason);
+
 private:
     QIcon alertIcon = QIcon(":/assets/Icons/512x512/reddit_icon_red.png");
     QIcon defaultIcon = QIcon(":/assets/Icons/96x96/reddit_icon_circle.png");
 
     bool m_alert;
+
+    QObject *m_root;
 };
 
 #endif // SYSTEMTRAYICON_HPP
