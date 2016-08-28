@@ -15,8 +15,3 @@ HEADERS += \
     Reddit.hpp \
     RedditPost.hpp \
     Subreddit.hpp
-
-#unix:!android {
-#    target.path = /usr/local/EyeOnReddit/src
-#    INSTALLS += target
-#}
