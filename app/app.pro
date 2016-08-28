@@ -39,6 +39,6 @@ SOURCES += \
     Desktop/src/Settings.cpp
 TARGET = EyeOnReddit
 unix:!android {
-    target.path = /usr/local/EyeOnReddit/bin
+    target.path = /opt/EyeOnReddit/bin
     INSTALLS += target
 }
