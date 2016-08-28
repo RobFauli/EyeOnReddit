@@ -13,6 +13,7 @@ class RedditPost : public QObject
 public:
     explicit RedditPost(const QJsonObject &data, QObject *parent = 0);
     void addData(const QJsonObject &data);
+    void clearData() { m_data.clear();}
 
     QString getId();
     QUrl getDomain();

@@ -66,6 +66,8 @@ void Subreddit::populateFrontPagePosts()
         const auto postObject = preparepost(post);
         const auto id = postObject["id"].toString();
         if (m_frontPagePosts.contains(id)) {
+            if (!m_keepOldData)
+                m_frontPagePosts[id]->clearData();
             m_frontPagePosts[id]->addData(postObject);
         } else {
             std::shared_ptr<RedditPost> redditpost = std::make_shared<RedditPost>(postObject);

@@ -59,6 +59,8 @@ public:
 
     Q_PROPERTY(QList<QString> importantPostIds READ getImportantPosts NOTIFY importantPostsChanged)
 
+    Q_PROPERTY(bool keepOldData MEMBER m_keepOldData)
+
 signals:
     void postAlert(AlertType type, const QString &subname, const QString &id);
 
@@ -90,6 +92,8 @@ private:
 
     Thresholds m_thresholds;
     QSet<QString> m_importantPosts; // Important posts that have not been seen or dismissed.
+
+    bool m_keepOldData = false;
 };
 
 Q_DECLARE_METATYPE(Subreddit::AlertType)
