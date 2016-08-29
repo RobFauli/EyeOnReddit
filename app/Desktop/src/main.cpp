@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
 
     qmlRegisterType<Reddit>("myReddit", 0, 1, "Reddit");
-    qmlRegisterUncreatableType<Subreddit>("myreddit", 0, 1, "Subreddit",
+    qmlRegisterUncreatableType<Subreddit>("myReddit", 0, 1, "Subreddit",
                                           "Cannot create Subreddits from QML.");
     qmlRegisterUncreatableType<RedditPost>("myReddit", 0, 1, "RedditPost",
                                            "Cannot create RedditPost from QML.");
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     Q_FOREACH(const auto &subname, subnames)
         reddit.addSubreddit(subname.toString());
 
-    QObject::connect(&reddit, &Reddit::postAlert,
+    QObject::connect(&reddit, &Reddit::postAlertType,
             [&tray, &reddit]
                      (Subreddit::AlertType type, const QString &subname,
                      const QString &id)
@@ -56,10 +56,14 @@ int main(int argc, char *argv[])
         settings.setValue("subnames", QVariant(reddit.getSubredditNames()));
         settings.sync();
     });
-    engine.rootContext()->setContextProperty("myReddit", &reddit);
+    engine.rootContext()->setContextProperty("theReddit", &reddit);
     engine.rootContext()->setContextProperty("settings", &settings);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    auto redditView = engine.rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));
+    QObject::connect(&reddit, SIGNAL(postAlert(QString,QString)), redditView, SIGNAL(postAlert(QString,QString)));
+
     tray.initialize(&engine);
     tray.show();
 

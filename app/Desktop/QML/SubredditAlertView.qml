@@ -10,8 +10,16 @@ Item {
     property alias contentHeight: view.contentHeight
 
     signal cleared()
+    signal alertsSignal()
 
-    function update() {
+    Component.onCompleted: fetchImportantPosts()
+
+    function update(subName, id) {
+        if (subName == subname)
+            fetchImportantPosts()
+    }
+
+    function fetchImportantPosts() {
         subredditAlertsModel.clear()
         var subreddit = reddit.getSubreddit(subname)
         var importantPostIds = subreddit.importantPostIds

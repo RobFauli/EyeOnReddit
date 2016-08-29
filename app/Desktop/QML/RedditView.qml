@@ -6,6 +6,7 @@ import myReddit 0.1
 Item {
     id: redditView
     property Reddit reddit
+    signal postAlert(string subname, string id)
 
     ListModel {
         id: subredditListModel
@@ -46,17 +47,14 @@ Item {
                 leftPadding: 4
                 anchors.verticalCenter: removeButton.verticalCenter
                 text: "/r/" + name
+                color: subredditAlertView.count ? "red" : "black"
             }
             Button {
                 id: collapseButton
                 Layout.row: 0
                 Layout.column: 2
                 text: expanded ? "Collapse" : "Expand"
-                onClicked: {
-                    expanded = !expanded
-                    if (expanded)
-                        subredditAlertView.update(name)
-                }
+                onClicked: expanded = !expanded
             }
             Button {
                 id: removeButton
@@ -81,8 +79,15 @@ Item {
 
                 visible: expanded
 
+                Component.onCompleted: {
+                    redditView.postAlert.connect(update)
+                    update(name, "hey")
+                }
+
                 onCleared: {
                     expanded = false
+                    reddit.getSubreddit(subname).clearImportantPosts()
+                    fetchImportantPosts()
                     tray.setAlert(reddit.anyAlerts())
                 }
 
@@ -90,6 +95,7 @@ Item {
                     var delegateHeight = contentHeight / count
                     return (n * delegateHeight + 0.5 * delegateHeight)
                 }
+
             }
         }
     }

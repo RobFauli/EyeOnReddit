@@ -32,7 +32,8 @@ public:
 
 signals:
     void subredditNamesChanged();
-    void postAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
+    void postAlertType(Subreddit::AlertType type, const QString &subname, const QString &id);
+    void postAlert(const QString &subname, const QString &id);
 
 public slots:
     void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);

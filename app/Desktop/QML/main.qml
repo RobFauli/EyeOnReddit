@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import myReddit 0.1
 
 Window {
-    id: root
+    id: window
     title: "Eye on Reddit"
     visible: true
     width: 360
@@ -24,6 +24,7 @@ Window {
 
 
     Rectangle{
+        id: root
         anchors.fill: parent
 //        Reddit {
 //            id: myReddit
@@ -38,7 +39,8 @@ Window {
 
         RedditView {
             id: redditView
-            reddit: myReddit
+            objectName: "redditView"
+            reddit: theReddit
             width: parent.width
             height: parent.height - toolbar.height
             anchors.top: parent.top
@@ -80,7 +82,7 @@ Window {
                     id: addButton
                     text: "add"
                     onClicked: {
-                        myReddit.addSubreddit(nameInput.text)
+                        theReddit.addSubreddit(nameInput.text)
                         nameInput.text = ""
                         redditView.update()
                     }

@@ -63,5 +63,6 @@ Subreddit *Reddit::getSubreddit(const QString &name) const
 
 void Reddit::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
 {
-    emit postAlert(type, subname, id);
+    emit postAlertType(type, subname, id);
+    emit postAlert(subname, id);
 }
