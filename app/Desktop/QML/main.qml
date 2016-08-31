@@ -23,7 +23,7 @@ Window {
     y: settings.value("y")
 
 
-    Rectangle{
+    Rectangle {
         id: root
         anchors.fill: parent
 
@@ -45,7 +45,7 @@ Window {
             width: parent.width
             height: addButton.height
             anchors.bottom: parent.bottom
-            RowLayout{
+            RowLayout {
                 anchors.fill: parent
                 TextInput {
                     id: nameInput
