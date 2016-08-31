@@ -26,6 +26,12 @@ void SystemTrayIcon::initialize(QQmlApplicationEngine *engine)
     setIcon(defaultIcon);
 
     connect(this, &QSystemTrayIcon::activated, this, &SystemTrayIcon::activatedSlot);
+    connect(this, &QSystemTrayIcon::messageClicked, [this] () {
+        auto window = dynamic_cast<QWindow*>(m_root);
+        window->showNormal();
+        window->raise();
+        window->requestActivate();
+    });
 }
 
 void SystemTrayIcon::setAlert(bool alert)
@@ -55,7 +61,7 @@ void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &
 
 void SystemTrayIcon::activatedSlot(QSystemTrayIcon::ActivationReason reason)
 {
-    QWindow *window = dynamic_cast<QWindow*>(m_root);
+    auto window = dynamic_cast<QWindow*>(m_root);
     switch (reason) {
     case QSystemTrayIcon::ActivationReason::Unknown:
             break;
