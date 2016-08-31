@@ -38,11 +38,6 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../src/debug/backend.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../src/libbackend.a
 
-DISTFILES += \
-    QML/android_main.qml \
-    Assets/Icons/256x256/reddit_logo.png \
-    Assets/Icons/96x96/reddit_icon_circle.png
-
 HEADERS += \
     Desktop/src/Settings.hpp
 
