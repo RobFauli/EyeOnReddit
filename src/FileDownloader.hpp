@@ -18,7 +18,7 @@ public:
     virtual ~FileDownloader();
     QByteArray downloadedData() const;
 
-    signals:
+signals:
     void downloaded();
 
 private slots:

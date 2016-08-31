@@ -4,8 +4,8 @@ FileDownloader::FileDownloader(QUrl url, QObject *parent) :
     QObject(parent)
 {
     connect(
-        &m_WebCtrl, SIGNAL (finished(QNetworkReply*)),
-        this, SLOT (fileDownloaded(QNetworkReply*))
+        &m_WebCtrl, &QNetworkAccessManager::finished,
+        this, &FileDownloader::fileDownloaded
     );
 
     QNetworkRequest request(url);
@@ -16,7 +16,6 @@ FileDownloader::~FileDownloader() { }
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     m_DownloadedData = pReply->readAll();
-    //emit a signal
     pReply->deleteLater();
     emit downloaded();
 }
