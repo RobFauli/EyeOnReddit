@@ -26,16 +26,6 @@ Window {
     Rectangle{
         id: root
         anchors.fill: parent
-//        Reddit {
-//            id: myReddit
-//            onPostAlert: {
-//                tray.alert = true
-//                var subreddit = getSubreddit(subname)
-//                var post = subreddit.getPost(id)
-//                tray.receivePostAlert(type, subname, post.title)
-//                subreddit.setPostImportantStatus(id, true)
-//            }
-//        }
 
         RedditView {
             id: redditView
