@@ -17,6 +17,10 @@ Window {
         settings.setValue("x", xcoord)
         settings.setValue("y", ycoord)
         settings.sync()
+
+        // Hide window when user closes it
+        close.accepted = false
+        hide();
     }
 
     x: settings.value("x")
@@ -59,7 +63,7 @@ Window {
                         id: hint
                         anchors.verticalCenter: parent.verticalCenter
                         leftPadding: parent.leftPadding
-                        color: "lightgrey"
+                        color: "grey"
                         text: (parent.length == 0) ? "Input the name of a subreddit" : ""
 
                     }
