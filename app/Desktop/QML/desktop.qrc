@@ -4,5 +4,6 @@
         <file>RedditView.qml</file>
         <file>SubredditAlertView.qml</file>
         <file>Button.qml</file>
+        <file>SettingsWindow.qml</file>
     </qresource>
 </RCC>

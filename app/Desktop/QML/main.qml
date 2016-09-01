@@ -30,14 +30,43 @@ Window {
     Rectangle {
         id: root
         anchors.fill: parent
+        
+        Rectangle {
+            id: topToolbar
+            anchors.top: parent.top
+            height: settingsButton.height
+            width: parent.width
+            color: "grey"
+            
+            Button {
+                id: settingsButton
+                text: "Settings"
+                radius: 0
+                hoverEnabled: true
+                basecolor: containsMouse ? "lightgrey" : "grey"
+                border.color: basecolor
+                
+                onClicked: {
+                    var component = Qt.createComponent("SettingsWindow.qml")
+                    if (component.status != Component.Ready) {
+                        if (component.status == Component.Error)
+                            console.debug("Error: " + component.errorString()) 
+                        return;
+                    }
+                    var settingsWindow = component.createObject(
+                        root, {"x": window.x + window.width/8, "y": window.y + window.height/6})
+                    settingsWindow.show()
+                }
+            }
+        }
 
         RedditView {
             id: redditView
             objectName: "redditView"
             reddit: theReddit
             width: parent.width
-            height: parent.height - toolbar.height
-            anchors.top: parent.top
+            anchors.top: topToolbar.bottom
+            anchors.bottom: bottomToolbar.top
 
             Component.onCompleted: {
                 update()
@@ -45,7 +74,7 @@ Window {
         }
 
         Rectangle {
-            id: toolbar
+            id: bottomToolbar
             width: parent.width
             height: addButton.height
             anchors.bottom: parent.bottom

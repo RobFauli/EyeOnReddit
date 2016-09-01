@@ -6,6 +6,8 @@ Rectangle {
     id: root
 
     property alias text: buttonText.text
+    property alias containsMouse: mouseArea.containsMouse
+    property alias hoverEnabled: mouseArea.hoverEnabled
 
     width: 80
     height: buttonText.contentHeight + 2
