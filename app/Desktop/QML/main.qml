@@ -51,27 +51,31 @@ Window {
             anchors.bottom: parent.bottom
             RowLayout {
                 anchors.fill: parent
-                TextInput {
-                    id: nameInput
-                    Layout.fillWidth: true
+                Rectangle {
                     height: addButton.height
-                    leftPadding: 4
+                    Layout.fillWidth: true
+                    border.color: "grey"
+                    TextInput {
+                        id: nameInput
+                        leftPadding: 4
+                        anchors.fill: parent
 
-                    text: ""
+                        text: ""
 
-                    Text {
-                        id: hint
-                        anchors.verticalCenter: parent.verticalCenter
-                        leftPadding: parent.leftPadding
-                        color: "grey"
-                        text: (parent.length == 0) ? "Input the name of a subreddit" : ""
+                        Text {
+                            id: hint
+                            anchors.verticalCenter: parent.verticalCenter
+                            leftPadding: parent.leftPadding
+                            color: "grey"
+                            text: (parent.length == 0) ? "Input the name of a subreddit" : ""
 
+                        }
+                        
+                        selectByMouse: true
+
+                        Keys.onEnterPressed: addButton.clicked()
+                        Keys.onReturnPressed: addButton.clicked()
                     }
-                    
-                    selectByMouse: true
-
-                    Keys.onEnterPressed: addButton.clicked()
-                    Keys.onReturnPressed: addButton.clicked()
                 }
 
                 Button {
