@@ -67,6 +67,8 @@ Window {
                         text: (parent.length == 0) ? "Input the name of a subreddit" : ""
 
                     }
+                    
+                    selectByMouse: true
 
                     Keys.onEnterPressed: addButton.clicked()
                     Keys.onReturnPressed: addButton.clicked()
