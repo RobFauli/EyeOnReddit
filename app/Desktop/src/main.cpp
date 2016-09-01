@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
     
     // Warn the reddit view in QML about new posts
     auto redditView = engine.rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));
-    qDebug() << redditView;
     QObject::connect(&reddit, SIGNAL(postAlert(QString,QString)), redditView, SIGNAL(postAlert(QString,QString)));
 
     tray.initialize(&engine);
