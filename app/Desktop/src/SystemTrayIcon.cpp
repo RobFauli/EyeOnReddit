@@ -15,8 +15,14 @@ void SystemTrayIcon::initialize(QQmlApplicationEngine *engine)
     m_root->connect(restoreAction, SIGNAL(triggered()), m_root, SLOT(showNormal()));
     QAction *quitAction = new QAction("Quit", m_root);
     m_root->connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    
+    QAction *clearAlertsAction = new QAction("Clear all alerts", m_root);
+    auto redditView = engine->rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));
+    m_root->connect(clearAlertsAction, SIGNAL(triggered()), redditView, SIGNAL(clearAllAlerts()));
 
     QMenu *trayIconMenu = new QMenu();
+    trayIconMenu->addAction(clearAlertsAction);
+    trayIconMenu->addSeparator();
     trayIconMenu->addAction(minimizeAction);
     trayIconMenu->addAction(restoreAction);
     trayIconMenu->addSeparator();

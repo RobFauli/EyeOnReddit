@@ -7,6 +7,7 @@ Item {
     id: redditView
     property Reddit reddit
     signal postAlert(string subname, string id)
+    signal clearAllAlerts()
 
     ListModel {
         id: subredditListModel
@@ -81,7 +82,7 @@ Item {
 
                 Component.onCompleted: {
                     redditView.postAlert.connect(update)
-                    update(name, "hey")
+                    redditView.clearAllAlerts.connect(cleared)
                 }
 
                 onCleared: {

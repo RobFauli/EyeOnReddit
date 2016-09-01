@@ -34,6 +34,7 @@ public:
 
 signals:
     void alertChanged();
+    void clearAllAlerts();
 
 public slots:
     void activatedSlot(QSystemTrayIcon::ActivationReason reason);
