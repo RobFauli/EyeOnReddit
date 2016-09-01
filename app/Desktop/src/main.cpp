@@ -53,17 +53,20 @@ int main(int argc, char *argv[])
 
     // Keep the followed subreddits in settings at all times in case of crash
     QObject::connect(&reddit, &Reddit::subredditNamesChanged,
-                     [&reddit, &settings] () {
-        settings.setValue("subnames", QVariant(reddit.getSubredditNames()));
-        settings.sync();
-    });
+                     [&reddit, &settings] () 
+        {
+            settings.setValue("subnames", QVariant(reddit.getSubredditNames()));
+            settings.sync();
+        }
+    );
 
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
     // Warn the reddit view in QML about new posts
     auto redditView = engine.rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));
-    QObject::connect(&reddit, SIGNAL(postAlert(QString,QString)), redditView, SIGNAL(postAlert(QString,QString)));
+    QObject::connect(&reddit, SIGNAL(postAlert(QString,QString)), 
+                     redditView, SIGNAL(postAlert(QString,QString)));
 
     tray.initialize(&engine);
     tray.show();
