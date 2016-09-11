@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
     );
 
 
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/SettingsWindow.qml")));
     
     // Warn the reddit view in QML about new posts
     auto redditView = engine.rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));
