@@ -81,7 +81,7 @@ Window {
         Component {
             id: menuHighlighter
             Rectangle {
-                color: "lightgray"
+                color: "lightgrey"
             }
         }
     }
@@ -90,13 +90,8 @@ Window {
         anchors.left: menuArea.right
         width: window.width - menuArea.width
         height: window.height
-        Text {
-            anchors.centerIn: parent
-            text: "hey"
+        GeneralSettings {
+            id: generalSettings
         }
     }
-
-    // For testing:
-    // @disable-check M16
-    onClosing: Qt.quit()
 }
