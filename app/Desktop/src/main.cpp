@@ -7,6 +7,23 @@
 #include "SystemTrayIcon.hpp"
 #include "Reddit.hpp"
 
+#ifdef QML_DESIGN
+    class CacheManager : public QObject
+    {
+        Q_OBJECT
+    public:
+        CacheManager(QQmlEngine *engine) : m_engine(engine) { }
+    public slots:
+        void clear () {
+            m_engine->clearComponentCache();
+            qDebug() << "Engine cache cleared";
+        }
+    private:
+        QQmlEngine *m_engine;
+    };
+
+#include "main.moc"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -60,9 +77,22 @@ int main(int argc, char *argv[])
         }
     );
 
+#ifndef QT_DEBUG
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+#endif
 
-    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    engine.load(QUrl(QStringLiteral("qrc:/SettingsWindow.qml")));
+#ifdef QT_DEBUG
+#ifdef QML_DESIGN
+    engine.load(QUrl(QStringLiteral("../../EyeOnReddit/app/Desktop/QML/debugloader.qml")));
+    auto loader = engine.rootObjects()[0];
+    CacheManager trimer(&engine);
+    QObject::connect(loader, SIGNAL(reloading()),
+                     &trimer, SLOT(clear()));
+#endif
+#ifndef QML_DESIGN
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+#endif
+#endif
     
     // Warn the reddit view in QML about new posts
     auto redditView = engine.rootObjects()[0]->findChild<QObject*>(QStringLiteral("redditView"));

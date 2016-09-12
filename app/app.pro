@@ -11,8 +11,10 @@ android {
 
 unix:!android|win32|win64 {
     QT += widgets gui
-    RESOURCES = \
-        Desktop/QML/desktop.qrc
+    CONFIG(release, debug|release) {
+        RESOURCES = \
+            Desktop/QML/desktop.qrc
+    }
     SOURCES += Desktop/src/main.cpp
 
     HEADERS += \
