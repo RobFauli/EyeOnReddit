@@ -1,7 +1,7 @@
 #include "Subreddit.hpp"
 Subreddit::Subreddit(const QString &name)
     : m_name(name),
-      m_url("http://www.reddit.com/r/" + name),
+      m_url("https://www.reddit.com/r/" + name),
       m_timer(std::make_unique<QTimer>())
 {
     connect(m_timer.get(), &QTimer::timeout, this, &Subreddit::update);
