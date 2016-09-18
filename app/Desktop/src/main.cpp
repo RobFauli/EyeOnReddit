@@ -82,15 +82,16 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef QT_DEBUG
+    QString qmlFolder = "../../EyeOnReddit/app/Desktop/QML";
 #ifdef QML_DESIGN
-    engine.load(QUrl(QStringLiteral("../../EyeOnReddit/app/Desktop/QML/debugloader.qml")));
+    engine.load(QUrl(QStringLiteral(qmlFolder + "/debugloader.qml")));
     auto loader = engine.rootObjects()[0];
     CacheManager trimer(&engine);
     QObject::connect(loader, SIGNAL(reloading()),
                      &trimer, SLOT(clear()));
 #endif
 #ifndef QML_DESIGN
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(qmlFolder + "/main.qml"));
 #endif
 #endif
     
