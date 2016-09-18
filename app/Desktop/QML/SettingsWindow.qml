@@ -40,10 +40,10 @@ Window {
 
         Component {
             id: menuDelegate
-
             Rectangle {
                 //property bool subsOpen: true
                 property int itemHeight: text.contentHeight + 4
+                property alias currentSubredditDelegate: sublistView.currentItem
                 width: ListView.view.width
                 height: sublistView.visible ? itemHeight + 3*textBox.height : itemHeight
                 color: "transparent"
@@ -63,6 +63,7 @@ Window {
 
                         onClicked: {
                             menu.currentIndex = index
+                            pane.state = title
                         }
                     }
                 }
@@ -71,6 +72,8 @@ Window {
                     width: parent.width
                     anchors.top: textBox.bottom
                     anchors.bottom: parent.bottom
+
+                    onCurrentItemChanged: settingsLoader.reload()
 
                     visible: (menu.currentIndex === 2 && title === "Subreddits")
                 }
@@ -90,8 +93,58 @@ Window {
         anchors.left: menuArea.right
         width: window.width - menuArea.width
         height: window.height
-        GeneralSettings {
-            id: generalSettings
+        state: "General"
+
+        states: [
+            State {
+                name: "General"
+                PropertyChanges { target: settingsLoader; source: "General" + "Settings.qml" }
+            },
+            State {
+                name: "Appearance"
+                PropertyChanges { target: settingsLoader; source: "Appearance" + "Settings.qml" }
+            },
+            State {
+                name: "Subreddits"
+                PropertyChanges { target: settingsLoader; source: "Subreddit" + "Settings.qml" }
+            }
+        ]
+
+        Loader {
+            id: settingsLoader
+            anchors.fill: parent
+
+            onLoaded: {
+                if (pane.state === "Subreddits")
+                    item.subname = menu.currentItem.currentSubredditDelegate.subname
+            }
+
+            function reload() {
+                var oldSource = source
+                source = ""
+                source = oldSource
+            }
+        }
+
+        Row {
+            id: bottomBar
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            Button {
+                text: "Cancel"
+                onClicked: window.close()
+            }
+            Button {
+                text: "Apply"
+                onClicked: settingsLoader.item.save()
+            }
+            Button {
+                text: "OK"
+                onClicked: {
+                    settingsLoader.item.save()
+                    window.close()
+                }
+            }
         }
     }
 }

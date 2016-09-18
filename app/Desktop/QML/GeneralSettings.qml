@@ -6,19 +6,28 @@ import myReddit 0.1
 Rectangle {
     id: generalSettings
     anchors.fill: parent
+
+    function save() {
+
+    }
+
     RowLayout {
         Layout.fillWidth: true
-        Rectangle {
-            height: text.contentHeight
-            Layout.minimumWidth: text.contentWidth
-            Text {
-                id: text
-                anchors.centerIn: parent
-                text: "Refresh interval: lala"
-            }
+        Text {
+            text: "General settings are not available yet."
+        }
+
+        /*
+        Text {
+            Layout.minimumWidth: contentWidth
+            text: "Default refresh interval for subreddits: "
         }
         IntegerInput {
             id: input
         }
+        Text {
+            text: "seconds"
+        }
+        */
     }
 }

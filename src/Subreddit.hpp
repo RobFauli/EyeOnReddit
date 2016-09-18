@@ -33,6 +33,10 @@ public:
 
     Q_INVOKABLE void setPostImportantStatus(const QString &id, bool important);
     Q_INVOKABLE void clearImportantPosts();
+    qreal getScoreThreshold();
+    void setScoreThreshold(qreal factor);
+    qreal getCommentsThreshold();
+    void setCommentsThreshold(qreal factor);
 
     QString getName() const;
     QUrl getUrl() const;
@@ -57,7 +61,12 @@ public:
     Q_PROPERTY(QVector<int> frontpageCommentCounts READ getFrontpageCommentCounts
                NOTIFY frontpageCommentCountsChanged)
 
-    Q_PROPERTY(QList<QString> importantPostIds READ getImportantPosts NOTIFY importantPostsChanged)
+    Q_PROPERTY(QList<QString> importantPostIds READ getImportantPosts
+               NOTIFY importantPostsChanged)
+    Q_PROPERTY(qreal scoreThreshold READ getScoreThreshold WRITE setScoreThreshold
+               NOTIFY scoreThresholdChanged)
+    Q_PROPERTY(qreal commentsThreshold READ getCommentsThreshold WRITE setCommentsThreshold
+               NOTIFY commentsThresholdChanged)
 
     Q_PROPERTY(bool keepOldData MEMBER m_keepOldData)
 
@@ -70,6 +79,8 @@ signals:
     void frontpageCommentCountsChanged();
 
     void importantPostsChanged();
+    void scoreThresholdChanged();
+    void commentsThresholdChanged();
 
 public slots:
     void update();

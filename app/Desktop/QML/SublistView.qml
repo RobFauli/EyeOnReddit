@@ -28,13 +28,13 @@ Item {
         
         clip: true
         focus: true
-        
+
         Component.onCompleted: parent.update()
     }
     Component {
         id: sublistDelegate
         Item {
-            property string subName: name
+            property string subname: name
             width: ListView.view.width
             height: text.contentHeight + 4
             Text {

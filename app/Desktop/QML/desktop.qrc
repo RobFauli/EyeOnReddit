@@ -8,5 +8,9 @@
         <file>SublistView.qml</file>
         <file>GeneralSettings.qml</file>
         <file>IntegerInput.qml</file>
+        <file>AppearanceSettings.qml</file>
+        <file>SubredditSettings.qml</file>
+        <file>FloatInput.qml</file>
+        <file>BaseInput.qml</file>
     </qresource>
 </RCC>

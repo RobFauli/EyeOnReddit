@@ -32,6 +32,27 @@ void Subreddit::clearImportantPosts()
     m_importantPosts.clear();
     emit importantPostsChanged();
 }
+
+qreal Subreddit::getScoreThreshold()
+{
+    return m_thresholds.scoreFactor;
+}
+
+void Subreddit::setScoreThreshold(qreal factor)
+{
+    m_thresholds.scoreFactor = factor;
+}
+
+qreal Subreddit::getCommentsThreshold()
+{
+    return m_thresholds.numCommentsFactor;
+}
+
+void Subreddit::setCommentsThreshold(qreal factor)
+{
+    m_thresholds.numCommentsFactor = factor;
+}
+
 QString Subreddit::getName() const
 {
     return m_name;
