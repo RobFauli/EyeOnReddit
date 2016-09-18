@@ -14,11 +14,12 @@ Rectangle {
             return n
     }
 
-    function save() {
-
-    }
-
     property string subname
+
+    function save() {
+        theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
+        theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
+    }
 
     Column {
         RowLayout {
