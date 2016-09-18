@@ -4,7 +4,7 @@ Loader {
     id: loader
     objectName: "loader"
     active: true
-    source: "SettingsWindow.qml" + "?t=" + Date.now()
+    source: "SettingsWindow.qml"
 
     signal reloading()
 
