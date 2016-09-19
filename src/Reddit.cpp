@@ -17,7 +17,7 @@ void Reddit::addSubreddit(const QString &name)
         connect(m_subreddits[name].get(), &Subreddit::postAlert,
                 this, &Reddit::receivePostAlert);
 
-        m_subreddits[name]->setUpdateIntervals(10000);
+        m_subreddits[name]->setUpdateIntervals(10);
 
         // Avoid constructor call from QMLJS by setting ownership to C++
         QQmlEngine::setObjectOwnership(m_subreddits[name].get(),

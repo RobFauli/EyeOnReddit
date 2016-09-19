@@ -50,7 +50,8 @@ public:
 
     Q_INVOKABLE RedditPost* getPost(const QString &id) const;
 
-    void setUpdateIntervals(int milliseconds);
+    unsigned int getUpdateIntervals();
+    void setUpdateIntervals(unsigned int seconds);
 
     Q_PROPERTY(QStringList frontpageTitles READ getFrontpageTitles()
                NOTIFY frontpageTitlesChanged)
@@ -67,6 +68,8 @@ public:
                NOTIFY scoreThresholdChanged)
     Q_PROPERTY(qreal commentsThreshold READ getCommentsThreshold WRITE setCommentsThreshold
                NOTIFY commentsThresholdChanged)
+    Q_PROPERTY(unsigned int updateInterval READ getUpdateIntervals WRITE setUpdateIntervals
+               NOTIFY updateIntervalChanged)
 
     Q_PROPERTY(bool keepOldData MEMBER m_keepOldData)
 
@@ -81,6 +84,7 @@ signals:
     void importantPostsChanged();
     void scoreThresholdChanged();
     void commentsThresholdChanged();
+    void updateIntervalChanged();
 
 public slots:
     void update();

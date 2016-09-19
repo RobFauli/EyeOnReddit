@@ -134,9 +134,14 @@ RedditPost* Subreddit::getPost(const QString &id) const
     return m_frontPagePosts[id].get();
 }
 
-void Subreddit::setUpdateIntervals(int milliseconds)
+unsigned int Subreddit::getUpdateIntervals()
 {
-    m_timer->setInterval(milliseconds);
+    return m_timer->interval()/1000.0;
+}
+
+void Subreddit::setUpdateIntervals(unsigned int seconds)
+{
+    m_timer->setInterval(seconds * 1000); // setInterval takes time in ms as argument.
     m_timer->start();
 }
 
