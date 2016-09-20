@@ -16,12 +16,41 @@ Rectangle {
 
     property string subname
 
+    function refresh() {
+        var seconds = theReddit.getSubreddit(subname).updateInterval
+        var minutes = Math.floor(seconds/60)
+        seconds = seconds % 60
+        intervalMinutesInput.text = minutes
+        intervalSecondsInput.text = seconds
+    }
+    onSubnameChanged: refresh()
+
     function save() {
+        theReddit.getSubreddit(subname).updateInterval
+                = parseInt(intervalMinutesInput) * 60 + parseInt(intervalSecondsInput)
         theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
         theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
     }
 
     Column {
+        SettingsHeadline { text: "Settings for /r/" + subname + ":" }
+        RowLayout {
+            Layout.fillWidth: true
+            Text { text: "Update interval: " }
+            IntegerInput {
+                id: intervalMinutesInput;
+                bottomValue: 0; topValue: 99
+                width: 30
+            }
+            Text { text: "m" }
+            IntegerInput {
+                id: intervalSecondsInput;
+                bottomValue: 0; topValue: 59
+                width: 30
+            }
+            Text { text: "s" }
+        }
+
         RowLayout {
             Layout.fillWidth: true
             Text {
@@ -29,6 +58,7 @@ Rectangle {
             }
             FloatInput {
                 id: scoreFactorInput
+                width: 30
                 text: {
                     var prev = theReddit.getSubreddit(subname).scoreThreshold
                     return format(prev)
@@ -42,6 +72,7 @@ Rectangle {
             }
             FloatInput {
                 id: numCommentsFactorInput
+                width: 30
                 text:  {
                     var prev = theReddit.getSubreddit(subname).commentsThreshold
                     return format(prev)

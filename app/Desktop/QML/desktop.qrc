@@ -12,5 +12,6 @@
         <file>SubredditSettings.qml</file>
         <file>FloatInput.qml</file>
         <file>BaseInput.qml</file>
+        <file>SettingsHeadline.qml</file>
     </qresource>
 </RCC>

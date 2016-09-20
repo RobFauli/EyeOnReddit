@@ -12,6 +12,9 @@ BaseInput {
         bottom: 1; top: 60
     }
     onWheelMoved: {
-        text = parseFloat(text) + angle/(Math.abs(angle))
+        var next = parseFloat(text) + angle/(Math.abs(angle))
+        if (next < intValidator.bottom || next > intValidator.top)
+            return;
+        text = next.toString()
     }
 }

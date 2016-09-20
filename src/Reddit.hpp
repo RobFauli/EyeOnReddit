@@ -29,17 +29,21 @@ public:
     Q_PROPERTY(QList<QString> subredditNames
                READ getSubredditNames
                NOTIFY subredditNamesChanged)
+    Q_PROPERTY(unsigned int initialUpdateInterval MEMBER m_defaultSubredditUpdateInterval
+               NOTIFY initialUpdateIntervalChanged)
 
 signals:
     void subredditNamesChanged();
     void postAlertType(Subreddit::AlertType type, const QString &subname, const QString &id);
     void postAlert(const QString &subname, const QString &id);
+    void initialUpdateIntervalChanged();
 
 public slots:
     void receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id);
 
 private:
     QMap<QString, std::shared_ptr<Subreddit>> m_subreddits;
+    unsigned int m_defaultSubredditUpdateInterval = 60;
 };
 
 #endif // REDDIT_HPP
