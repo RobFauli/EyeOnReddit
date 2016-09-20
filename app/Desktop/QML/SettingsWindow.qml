@@ -45,7 +45,7 @@ Window {
                 property int itemHeight: text.contentHeight + 4
                 property alias currentSubredditDelegate: sublistView.currentItem
                 width: ListView.view.width
-                height: sublistView.visible ? itemHeight + 3*textBox.height : itemHeight
+                height: sublistView.visible ? itemHeight + sublistView.count*textBox.height : itemHeight
                 color: "transparent"
                 Rectangle {
                     id: textBox
