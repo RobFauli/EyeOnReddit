@@ -8,6 +8,11 @@ FileDownloader::FileDownloader(QUrl url, QObject *parent) :
         this, &FileDownloader::fileDownloaded
     );
 
+#ifdef QT_DEBUG
+    if (QSslSocket::supportsSsl())
+        qDebug() << "No SSL support detected.";
+#endif
+
     QNetworkRequest request(url);
     m_WebCtrl.get(request);
 }
