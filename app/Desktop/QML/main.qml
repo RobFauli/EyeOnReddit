@@ -48,8 +48,8 @@ Window {
                 
                 onClicked: {
                     var component = Qt.createComponent("SettingsWindow.qml")
-                    if (component.status != Component.Ready) {
-                        if (component.status == Component.Error)
+                    if (component.status !== Component.Ready) {
+                        if (component.status === Component.Error)
                             console.debug("Error: " + component.errorString()) 
                         return;
                     }
