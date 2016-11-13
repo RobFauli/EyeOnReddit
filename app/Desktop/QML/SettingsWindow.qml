@@ -115,8 +115,12 @@ Window {
             anchors.fill: parent
 
             onLoaded: {
-                if (pane.state === "Subreddits")
-                    item.subname = menu.currentItem.currentSubredditDelegate.subname
+                if (pane.state === "Subreddits") {
+                    if (menu.currentItem.count > 0)
+                        item.subname = menu.currentItem.currentSubredditDelegate.subname
+                    else // If there are no subreddits
+                        item.subname = ""
+                }
             }
 
             function reload() {

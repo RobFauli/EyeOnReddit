@@ -26,56 +26,75 @@ Rectangle {
     onSubnameChanged: refresh()
 
     function save() {
-        theReddit.getSubreddit(subname).updateInterval
-                = parseInt(intervalMinutesInput) * 60 + parseInt(intervalSecondsInput)
-        theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
-        theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
+        if (subname != "") {
+            theReddit.getSubreddit(subname).updateInterval
+                    = parseInt(intervalMinutesInput) * 60 + parseInt(intervalSecondsInput)
+            theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
+            theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
+        } else {
+            console.debug("Tried to save subreddit, but subname was empty so did nothing. "
+                          + "There may be that there are no subreddits. \n")
+        }
     }
 
-    Column {
-        SettingsHeadline { text: "Settings for /r/" + subname + ":" }
-        RowLayout {
-            Layout.fillWidth: true
-            Text { text: "Update interval: " }
-            IntegerInput {
-                id: intervalMinutesInput;
-                bottomValue: 0; topValue: 99
-                width: 30
-            }
-            Text { text: "m" }
-            IntegerInput {
-                id: intervalSecondsInput;
-                bottomValue: 0; topValue: 59
-                width: 30
-            }
-            Text { text: "s" }
-        }
+    Loader {
+        sourceComponent: (subname != "") ? settingsColumn : nosubsColumn
+    }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Text {
-                text: "Score factor: "
+    Component {
+        id: nosubsColumn
+        Column {
+            SettingsHeadline { text: "You have not added any subreddits." }
+        }
+    }
+
+    Component {
+        id: settingsColumn
+        Column {
+            SettingsHeadline { text: "Settings for /r/" + subname + ":" }
+            RowLayout {
+                Layout.fillWidth: true
+                Text { text: "Update interval: " }
+                IntegerInput {
+                    id: intervalMinutesInput;
+                    bottomValue: 0; topValue: 99
+                    width: 30
+                }
+                Text { text: "m" }
+                IntegerInput {
+                    id: intervalSecondsInput;
+                    bottomValue: 0; topValue: 59
+                    width: 30
+                }
+                Text { text: "s" }
             }
-            FloatInput {
-                id: scoreFactorInput
-                width: 30
-                text: {
-                    var prev = theReddit.getSubreddit(subname).scoreThreshold
-                    return format(prev)
+
+            RowLayout {
+                Layout.fillWidth: true
+                Text {
+                    text: "Score factor: "
+                }
+                FloatInput {
+                    id: scoreFactorInput
+                    width: 30
+                    text: {
+                        var prev = theReddit.getSubreddit(subname).scoreThreshold
+                        return format(prev)
+                    }
                 }
             }
-        }
-        RowLayout {
-            Layout.fillWidth: true
-            Text {
-                text: "Number of comments factor: "
-            }
-            FloatInput {
-                id: numCommentsFactorInput
-                width: 30
-                text:  {
-                    var prev = theReddit.getSubreddit(subname).commentsThreshold
-                    return format(prev)
+            RowLayout {
+                Layout.fillWidth: true
+                Text {
+                    text: "Number of comments factor: "
+                }
+                FloatInput {
+                    id: numCommentsFactorInput
+                    width: 30
+                    text:  {
+                        var prev = theReddit.getSubreddit(subname).commentsThreshold
+                        return format(prev)
+                    }
                 }
             }
         }
