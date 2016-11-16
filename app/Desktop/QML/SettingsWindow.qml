@@ -44,6 +44,7 @@ Window {
                 //property bool subsOpen: true
                 property int itemHeight: text.contentHeight + 4
                 property alias currentSubredditDelegate: sublistView.currentItem
+                property alias currentSubredditCount: sublistView.count
                 width: ListView.view.width
                 height: sublistView.visible ? itemHeight + sublistView.count*textBox.height : itemHeight
                 color: "transparent"
@@ -116,7 +117,7 @@ Window {
 
             onLoaded: {
                 if (pane.state === "Subreddits") {
-                    if (menu.currentItem.count > 0)
+                    if (menu.currentItem.currentSubredditCount > 0)
                         item.subname = menu.currentItem.currentSubredditDelegate.subname
                     else // If there are no subreddits
                         item.subname = ""

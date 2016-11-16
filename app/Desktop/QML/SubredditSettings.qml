@@ -14,31 +14,19 @@ Rectangle {
             return n
     }
 
+    function save() {
+        loader.item.save()
+    }
+
     property string subname
 
-    function refresh() {
-        var seconds = theReddit.getSubreddit(subname).updateInterval
-        var minutes = Math.floor(seconds/60)
-        seconds = seconds % 60
-        intervalMinutesInput.text = minutes
-        intervalSecondsInput.text = seconds
-    }
-    onSubnameChanged: refresh()
+    onSubnameChanged: loader.loaded
 
-    function save() {
-        if (subname != "") {
-            theReddit.getSubreddit(subname).updateInterval
-                    = parseInt(intervalMinutesInput) * 60 + parseInt(intervalSecondsInput)
-            theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
-            theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
-        } else {
-            console.debug("Tried to save subreddit, but subname was empty so did nothing. "
-                          + "There may be that there are no subreddits. \n")
-        }
-    }
 
     Loader {
+        id: loader
         sourceComponent: (subname != "") ? settingsColumn : nosubsColumn
+        onLoaded: if (subname != "") item.refresh()
     }
 
     Component {
@@ -51,18 +39,37 @@ Rectangle {
     Component {
         id: settingsColumn
         Column {
+            function refresh() {
+                var seconds = theReddit.getSubreddit(subname).updateInterval
+                var minutes = Math.floor(seconds/60)
+                seconds = seconds % 60
+                intervalMinutesInput.text = minutes
+                intervalSecondsInput.text = seconds
+            }
+            function save() {
+                if (subname != "") {
+                    theReddit.getSubreddit(subname).updateInterval
+                            = parseInt(intervalMinutesInput.text) * 60 + parseInt(intervalSecondsInput.text)
+                    theReddit.getSubreddit(subname).scoreThreshold = parseFloat(scoreFactorInput.text)
+                    theReddit.getSubreddit(subname).commentsThreshold = parseFloat(numCommentsFactorInput.text)
+                } else {
+                    console.debug("Tried to save subreddit, but subname was empty so did nothing. "
+                                  + "There may be that there are no subreddits. \n")
+                }
+            }
+
             SettingsHeadline { text: "Settings for /r/" + subname + ":" }
             RowLayout {
                 Layout.fillWidth: true
                 Text { text: "Update interval: " }
                 IntegerInput {
-                    id: intervalMinutesInput;
+                    id: intervalMinutesInput
                     bottomValue: 0; topValue: 99
                     width: 30
                 }
                 Text { text: "m" }
                 IntegerInput {
-                    id: intervalSecondsInput;
+                    id: intervalSecondsInput
                     bottomValue: 0; topValue: 59
                     width: 30
                 }
