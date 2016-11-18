@@ -2,6 +2,7 @@
 #define SYSTEMTRAYICON_HPP
 
 #include <QtCore/QObject>
+#include <QtCore/QProcess>
 #include <QtGui/QWindow>
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QAction>

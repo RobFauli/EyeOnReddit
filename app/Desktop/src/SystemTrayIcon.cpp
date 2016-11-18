@@ -61,8 +61,16 @@ bool SystemTrayIcon::getAlert()
 
 void SystemTrayIcon::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &title)
 {
+#ifndef USE_LIBNOTIFY
     if (supportsMessages())
         showMessage("Important post(s) in /r/" + subname + ":", title);
+#endif
+#ifdef USE_LIBNOTIFY
+    // Ugly, but can't get it to compile with libnotifymm at the moment.
+    QProcess process;
+    process.start("notify-send", {"'Post in /r/" + subname + ":'", "'" + title + "'", "--icon=dialog-information"});
+    process.waitForFinished();
+#endif
 }
 
 void SystemTrayIcon::activatedSlot(QSystemTrayIcon::ActivationReason reason)
