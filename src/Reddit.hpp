@@ -3,6 +3,12 @@
 
 #include <QtCore/QObject>
 #include <QtQml/QQmlEngine>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlField>
+#include <QtSql/QSqlTableModel>
+#include <QtSql/QSqlRecord>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 #include <QDebug>
 
 #include <memory>
@@ -44,6 +50,8 @@ public slots:
 private:
     QMap<QString, std::shared_ptr<Subreddit>> m_subreddits;
     unsigned int m_defaultSubredditUpdateInterval = 60;
+    QSqlDatabase db;
+    QString m_AlertedTableName = "alerted";
 };
 
 #endif // REDDIT_HPP

@@ -2,7 +2,18 @@
 
 Reddit::Reddit(QObject *parent) : QObject(parent)
 {
-
+    db = QSqlDatabase::addDatabase("QSQLITE", "default");
+    db.setDatabaseName("Reddit.sqlite");
+    if (!db.isOpen())
+        db.open();
+    if (!db.tables().contains(m_AlertedTableName)) {
+        QSqlQuery query(db);
+        query.prepare("CREATE TABLE " + m_AlertedTableName + " "
+                        "(id string primare key, subname string)");
+        query.exec();
+        qDebug() << "Added alerted table to db.";
+        qDebug() << "The tables are now: " << db.tables();
+    }
 }
 
 void Reddit::addSubreddit(const QString &name)
@@ -63,6 +74,22 @@ Subreddit *Reddit::getSubreddit(const QString &name) const
 
 void Reddit::receivePostAlert(Subreddit::AlertType type, const QString &subname, const QString &id)
 {
-    emit postAlertType(type, subname, id);
-    emit postAlert(subname, id);
+    QSqlTableModel model(Q_NULLPTR, db);
+    model.setTable(m_AlertedTableName);
+    model.setFilter("id='" + id + "'");
+    model.select();
+    if (model.record(0).value(0).toString() == "") {
+        emit postAlertType(type, subname, id);
+        emit postAlert(subname, id);
+        QSqlRecord record;
+        record.append(QSqlField("id", QVariant::String));
+        record.append(QSqlField("subname", QVariant::String));
+        record.setValue("id", id);
+        record.setValue("subname", subname);
+        model.setTable(m_AlertedTableName);
+        model.select();
+        model.insertRecord(-1, record);
+    } else {
+        qDebug() << "Post " + id + " had already been alerted.";
+    }
 }
